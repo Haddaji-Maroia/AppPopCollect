@@ -1,0 +1,9 @@
+# Flutter
+.dart_tool/
+build/
+
+# iOS
+ios/Pods/
+ios/.symlinks/
+ios/Flutter/Flutter.framework
+ios/Flutter/Flutter.podspec
