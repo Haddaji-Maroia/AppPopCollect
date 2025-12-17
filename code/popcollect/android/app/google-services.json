@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "581530421124",
+    "project_id": "popcollect-app",
+    "storage_bucket": "popcollect-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:581530421124:android:44bdec64909ba414293fd1",
+        "android_client_info": {
+          "package_name": "be.hepl.popcollect2"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBL-7RShaJpgWY-5Br4m6RGwt6AOnwfFLQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
