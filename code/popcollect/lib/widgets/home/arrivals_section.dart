@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import '../products/product_carousel_widget.dart';
 
-class HomeSection extends StatelessWidget {
+class ArrivalsSection extends StatelessWidget {
   final String title;
   final List<Widget> products;
 
-  const HomeSection({
+  const ArrivalsSection({
     super.key,
     required this.title,
     required this.products,
@@ -19,7 +19,7 @@ class HomeSection extends StatelessWidget {
         Text(
           title,
           style: const TextStyle(
-            fontSize: 16,
+            fontSize: 22,
             fontWeight: FontWeight.bold,
           ),
         ),

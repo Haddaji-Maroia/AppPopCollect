@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import '../widgets/home/home_section.dart';
-import '../widgets/products/product_carousel_widget.dart';
+import 'package:popcollect2/widgets/home/artists_section.dart';
+import '../widgets/home/arrivals_section.dart';
+import '../widgets/home/charaters_section.dart';
 import '../widgets/products/product_item.dart';
 import '../widgets/search_bar_widget.dart';
+import 'characters_page.dart';
 
 class HomeContent extends StatelessWidget {
   const HomeContent({super.key});
@@ -17,7 +19,8 @@ class HomeContent extends StatelessWidget {
           const SearchBarWidget(),
           const SizedBox(height: 30),
 
-          HomeSection(
+          //SEZIONE NOVITA
+          ArrivalsSection(
             title: 'New additions',
             products: const [
               ProductItem(imagePath: 'assets/images/additions/pandaWednesday.jpg', title: 'SKULLPANDA × We..'),
@@ -30,7 +33,8 @@ class HomeContent extends StatelessWidget {
             ],
           ),
 
-          HomeSection(
+          //SEZIONE ARRIVI
+          ArrivalsSection(
             title: 'Future arrivals',
             products: const [
               ProductItem(imagePath: 'assets/images/arrivals/skullpanda1.jpg', title: 'SKULLPANDA The...'),
@@ -43,17 +47,16 @@ class HomeContent extends StatelessWidget {
             ],
           ),
 
-          HomeSection(
-            title: 'Characters',
-            products: const [
-              ProductItem(imagePath: 'assets/images/characters/hironoRed.jpg', title: 'SKULLPANDA The...'),
-              SizedBox(width: 10),
-              ProductItem(imagePath: 'assets/images/characters/skullPanda2.jpg', title: 'POLAR-Hide and...'),
-              SizedBox(width: 10),
-              ProductItem(imagePath: 'assets/images/characters/dimoo.jpg', title: 'CRYBABY Vacation.. '),
-              //ElevatedButton(onPressed: '', child: '')
-            ],
-          ),
+
+          SizedBox(height: 20.0),
+          CharactersSection(),
+
+          SizedBox(height: 50.0),
+
+
+          //SEZIONE ARTISTI
+          ArtistsSection(),
+
         ],
       ),
     );

@@ -7,6 +7,7 @@ class MyTextInput extends StatelessWidget {
   final TextInputType keyboardType;
   final String? Function(String?)? validator;
   final bool obscureText;
+  final Widget? suffixIcon;
 
   const MyTextInput({
     super.key,
@@ -16,6 +17,7 @@ class MyTextInput extends StatelessWidget {
     this.keyboardType = TextInputType.text,
     this.validator,
     this.obscureText = false,
+    this.suffixIcon,
   });
 
   @override
@@ -25,6 +27,7 @@ class MyTextInput extends StatelessWidget {
       decoration: InputDecoration(
         hintText: hintText,
         prefixIcon: prefixIcon,
+        suffixIcon: suffixIcon,
         contentPadding: const EdgeInsets.symmetric(
           vertical: 16,
           horizontal: 20,
