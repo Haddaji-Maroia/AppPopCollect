@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:popcollect2/screens/home_content.dart';
 import 'package:popcollect2/screens/profile_page.dart';
 import 'package:popcollect2/screens/wishlist_page.dart';
-import 'collection_page.dart';
+import 'collection/collection_page.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:popcollect2/constants/fonts.dart';
 
 
 class AuthHeader extends StatelessWidget {
@@ -21,11 +22,8 @@ class AuthHeader extends StatelessWidget {
         Align(
           alignment: Alignment.centerLeft,
           child: Text(
-            'Sign up',
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-            ),
+            title,
+            style: kTitleText,
           ),
         ),
         SizedBox(height: 30.0),

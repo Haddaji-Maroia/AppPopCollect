@@ -7,6 +7,8 @@ import 'package:popcollect2/widgets/auth/auth_header.dart';
 import 'package:popcollect2/widgets/auth/or_divider.dart';
 import 'package:popcollect2/widgets/form/password_input.dart';
 
+import '../../constants/fonts.dart';
+import '../../constants/sizes.dart';
 import '../../widgets/auth/social_login.dart';
 import '../../widgets/form/email_input.dart';
 
@@ -73,7 +75,7 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.all(kHorizontalPadding),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -85,28 +87,25 @@ class _LoginPageState extends State<LoginPage> {
                   child: Column(
                     children: [
                       EmailInput(controller: emailController),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: kSpacingM),
                       PasswordInput(controller: passwordController),
-                      const SizedBox(height: 40),
+                      const SizedBox(height: kSpacingXL),
+
 
                       SizedBox(
                         width: double.infinity,
-                        height: 56,
+                        height: kButtonHeight,
                         child: ElevatedButton(
                           onPressed: _handleLogin,
                           style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xFF587DBD),
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30),
+                              borderRadius: BorderRadius.circular(kBorderRadiusButton),
                             ),
                           ),
                           child: const Text(
                             'Login',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                            ),
+                            style: kButtonText,
                           ),
                         ),
                       ),
@@ -115,7 +114,7 @@ class _LoginPageState extends State<LoginPage> {
 
                       SizedBox(
                         width: double.infinity,
-                        height: 56,
+                        height: kButtonHeight,
                         child: ElevatedButton(
                           onPressed: () {
                             Navigator.pushNamed(context, SignUpPage.routeName);
@@ -123,16 +122,12 @@ class _LoginPageState extends State<LoginPage> {
                           style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xFF587DBD),
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30),
+                              borderRadius: BorderRadius.circular(kBorderRadiusButton),
                             ),
                           ),
                           child: const Text(
                             'Sign up',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                            ),
+                            style: kButtonText,
                           ),
                         ),
                       ),
@@ -141,7 +136,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
 
-              const SizedBox(height: 20),
+              const SizedBox(height: kSpacingM),
               const SocialLogin(),
             ],
           ),

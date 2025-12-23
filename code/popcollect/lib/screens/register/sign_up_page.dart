@@ -6,10 +6,13 @@ import 'package:popcollect2/widgets/auth/or_divider.dart';
 import 'package:popcollect2/widgets/auth/social_login.dart';
 import 'package:popcollect2/widgets/form/username_input.dart';
 
+import '../../constants/fonts.dart';
 import '../../services/auth_service.dart';
 import '../../widgets/form/email_input.dart';
 import '../../widgets/form/password_input.dart';
 import '../home_page.dart';
+import '../../constants/sizes.dart';
+
 
 
 class SignUpPage extends StatefulWidget {
@@ -37,7 +40,7 @@ class _SignUpPageState extends State<SignUpPage> {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.all(kHorizontalPadding),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -49,20 +52,20 @@ class _SignUpPageState extends State<SignUpPage> {
                   child: Column(
                     children: [
                       UserNameInput(),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: kVerticalSpacingM),
                       EmailInput(controller: emailController),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: kVerticalSpacingM),
                       PasswordInput(controller: passwordController),
-                      const SizedBox(height: 40),
+                      const SizedBox(height: kVerticalSpacingL),
 
                       SizedBox(
                         width: double.infinity,
-                        height: 56,
+                        height: kButtonHeight,
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xFF587DBD),
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30),
+                              borderRadius: BorderRadius.circular(kBorderRadiusButton),
                             ),
                           ),
                           onPressed: () async {
@@ -73,7 +76,6 @@ class _SignUpPageState extends State<SignUpPage> {
                                   password: passwordController.text.trim(),
                                 );
 
-                                if (!mounted) return;
                                 Navigator.pushReplacementNamed(
                                   context,
                                   HomePage.routeName,
@@ -88,21 +90,13 @@ class _SignUpPageState extends State<SignUpPage> {
                                   message = 'Registration failed';
                                 }
 
-                                if (!mounted) return;
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(content: Text(message)),
                                 );
                               }
                             }
                           },
-                          child: const Text(
-                            'Sign up',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
+                          child: const Text('Sign up', style: kButtonText),
                         ),
                       ),
 
@@ -110,12 +104,12 @@ class _SignUpPageState extends State<SignUpPage> {
 
                       SizedBox(
                         width: double.infinity,
-                        height: 56,
+                        height: kButtonHeight,
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xFF587DBD),
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30),
+                              borderRadius: BorderRadius.circular(kBorderRadiusButton),
                             ),
                           ),
                           onPressed: () {
@@ -124,22 +118,15 @@ class _SignUpPageState extends State<SignUpPage> {
                               LoginPage.routeName,
                             );
                           },
-                          child: const Text(
-                            'Login',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
+                          child: const Text('Login', style: kButtonText),
                         ),
-                      ),
+                        ),
                     ],
                   ),
                 ),
               ),
 
-              const SizedBox(height: 20),
+              const SizedBox(height: kVerticalSpacingM),
               const SocialLogin(),
             ],
           ),
