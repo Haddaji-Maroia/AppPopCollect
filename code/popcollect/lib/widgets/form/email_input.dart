@@ -3,12 +3,18 @@ import 'package:popcollect2/widgets/form/text_input.dart';
 
 
 class EmailInput extends StatelessWidget {
-  const EmailInput({super.key});
+  final TextEditingController controller;
+
+  const EmailInput({
+    super.key,
+    required this.controller,
+  });
 
   @override
   Widget build(BuildContext context) {
     return MyTextInput(
       keyboardType: TextInputType.emailAddress,
+      controller: controller,
       labelText: 'Email',
       hintText: 'Enter your email',
       prefixIcon: const Icon(Icons.email),

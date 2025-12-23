@@ -66,4 +66,5 @@ class DefaultFirebaseOptions {
     storageBucket: 'popcollect-app.firebasestorage.app',
     iosBundleId: 'be.hepl.popcollect2',
   );
+
 }
