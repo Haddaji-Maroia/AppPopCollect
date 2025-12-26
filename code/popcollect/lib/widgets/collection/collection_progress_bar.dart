@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../constants/sizes.dart';
+import '../../constants/fonts.dart';
 
 class CollectionProgressBar extends StatelessWidget {
   final int owned;
@@ -20,20 +22,16 @@ class CollectionProgressBar extends StatelessWidget {
         // we have numbers here
         Text(
           '$owned / $total collected',
-          style: const TextStyle(
-            fontSize: 12,
-            color: Colors.grey,
-          ),
+          style: kProgressText,
         ),
 
-        const SizedBox(height: 6),
+        const SizedBox(height: kProgressBarSpacing),
 
-        // this is the progress bar
         ClipRRect(
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(kProgressBarRadius),
           child: LinearProgressIndicator(
             value: progress,
-            minHeight: 8,
+            minHeight: kProgressBarHeight,
             backgroundColor: Colors.grey.shade300,
             valueColor: const AlwaysStoppedAnimation<Color>(
               Color(0xFF587DBD),

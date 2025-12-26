@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../constants/sizes.dart';
+import '../../constants/colors.dart';
 
 class ProductCard extends StatelessWidget {
   final String imagePath;
@@ -13,28 +15,30 @@ class ProductCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        width: 150.0,
-        height: 180.0,
-        margin: EdgeInsets.only(top: 20.0),
+        width: kProductCardWidth,
+        height: kProductCardHeight,
+        margin: const EdgeInsets.only(
+          top: kProductCardMarginTop,
+        ),
         decoration: BoxDecoration(
         // Angoli arrotondati
-        borderRadius: BorderRadius.circular(15.0),
+        borderRadius: BorderRadius.circular(kProductCardRadius),
         // Bordo nero
         border: Border.all(
           color: Colors.black12, // Bordo molto sottile o trasparente
-          width: 0.5,
+          width: kProductCardBorderWidth,
         ),
         // Shadow of the card
         boxShadow: const [
           BoxShadow(
             color: Colors.black12,
-            blurRadius: 10.0,
-            offset: Offset(0, 5), // Ombra sotto
+            blurRadius: kProductCardShadowBlur,
+            offset: Offset(0, kProductCardShadowOffsetY), // Ombra sotto
           ),
         ],
       ),
         child: ClipRRect( // Usa ClipRRect per ritagliare l'immagine secondo il borderRadius
-          borderRadius: BorderRadius.circular(15.0),
+          borderRadius: BorderRadius.circular(kProductCardRadius),
           child: Image.asset(
             imagePath,
             fit: BoxFit.cover,

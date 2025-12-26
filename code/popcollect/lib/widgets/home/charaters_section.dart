@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:popcollect2/widgets/home/section_header.dart';
 import '../../screens/characters_page.dart';
 import 'characters_card.dart';
+import '../../constants/sizes.dart';
+
 
 class CharactersSection extends StatelessWidget {
   const CharactersSection({super.key});
@@ -38,15 +40,15 @@ class CharactersSection extends StatelessWidget {
           },
         ),
 
-        const SizedBox(height: 16),
+        const SizedBox(height: kSpacingM),
 
         // CAROUSEL
         SizedBox(
-          height: 320,
+          height: kCharactersCarouselHeight,
           child: PageView.builder(
             controller: PageController(
-              viewportFraction: 0.75,
-              initialPage: 1, // parte dal centro
+              viewportFraction: kCharactersViewportFraction,
+              initialPage: kCharactersInitialPage, // parte dal centro
             ),
             itemCount: characters.length,
             itemBuilder: (context, index) {

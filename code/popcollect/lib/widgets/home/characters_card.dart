@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import '../../constants/sizes.dart';
+import '../../constants/fonts.dart';
+
 
 class CharacterCard extends StatelessWidget {
   final String name;
@@ -13,7 +16,7 @@ class CharacterCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8),
+      padding: const EdgeInsets.symmetric(horizontal: kCharacterCardPaddingH),
       child: Column(
         children: [
           // IMAGE CARD
@@ -26,8 +29,8 @@ class CharacterCard extends StatelessWidget {
                 boxShadow: const [
                   BoxShadow(
                     color: Colors.black12,
-                    blurRadius: 12,
-                    offset: Offset(0, 6),
+                    blurRadius: kCharacterImageShadowBlur,
+                    offset: Offset(0, kCharacterImageShadowOffsetY),
                   ),
                 ],
               ),
@@ -39,16 +42,13 @@ class CharacterCard extends StatelessWidget {
             ),
           ),
 
-          const SizedBox(height: 12),
+          const SizedBox(height: kSpacingM),
 
           // TITLE
           Text(
             name,
             textAlign: TextAlign.center,
-            style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-            ),
+            style: kCharacterNameText,
           ),
         ],
       ),

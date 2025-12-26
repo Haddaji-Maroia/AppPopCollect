@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
+import '../../constants/fonts.dart';
+import '../../constants/sizes.dart';
+
 
 
 class OrDivider extends StatelessWidget {
@@ -12,25 +16,24 @@ class OrDivider extends StatelessWidget {
             child:
             Divider(
               color: Colors.grey,
-              height: 60.0,
-              indent: 60,
-              endIndent: 5,
+              height: kDividerHeight,
+              indent: kDividerIndentLarge,
+              endIndent: kDividerIndentSmall,
             ),
           ),
 
-          Text('OR', style: TextStyle(
-            color: Colors.grey,
-            fontSize: 16.0,
-          ),
+          const Text(
+            'OR',
+            style: kDividerText,
           ),
 
           Flexible(
             child:
             Divider(
               color: Colors.grey,
-              height: 60.0,
-              indent: 5,
-              endIndent: 60,
+              height: kDividerHeight,
+              indent: kDividerIndentSmall,
+              endIndent: kDividerIndentLarge,
             ),
           ),
         ],

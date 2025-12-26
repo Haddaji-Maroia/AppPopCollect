@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../constants/sizes.dart';
+import '../../constants/fonts.dart';
 
 class ArtistCard extends StatelessWidget {
   final String name;
@@ -15,28 +17,25 @@ class ArtistCard extends StatelessWidget {
     return Column(
       children: [
         Container(
-          width: 170,
-          height: 210,
-          padding: const EdgeInsets.all(12),
+          width: kArtistCardWidth,
+          height: kArtistCardHeight,
+          padding: const EdgeInsets.all(kArtistCardPadding),
           decoration: BoxDecoration(
             color: Colors.yellow.shade200,
-            borderRadius: BorderRadius.circular(24),
+            borderRadius: BorderRadius.circular(kArtistCardRadius),
           ),
           child: ClipRRect(
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(kArtistImageRadius),
             child: Image.asset(
               image,
               fit: BoxFit.cover,
             ),
           ),
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: kArtistNameSpacing),
         Text(
           name,
-          style: const TextStyle(
-            fontSize: 15,
-            fontWeight: FontWeight.w600,
-          ),
+          style: kArtistNameText,
           textAlign: TextAlign.center,
         ),
       ],

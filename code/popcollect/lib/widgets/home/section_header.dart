@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import '../../constants/sizes.dart';
+import '../../constants/fonts.dart';
+
 
 class SectionHeader extends StatelessWidget {
   final String title;
@@ -15,26 +18,21 @@ class SectionHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.symmetric(
+        horizontal: kSectionHorizontalPadding,
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
             title,
-            style: const TextStyle(
-              fontSize: 22,
-              fontWeight: FontWeight.bold,
-            ),
+            style: kSectionTitleText,
           ),
           GestureDetector(
             onTap: onTap,
             child: Text(
               actionText,
-              style: const TextStyle(
-                fontSize: 14,
-                color: Colors.blue,
-                fontWeight: FontWeight.w500,
-              ),
+              style: kSectionActionText,
             ),
           ),
         ],

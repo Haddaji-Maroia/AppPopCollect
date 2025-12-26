@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:popcollect2/constants/fonts.dart';
 
+import '../../constants/sizes.dart';
+
 
 class AuthHeader extends StatelessWidget {
   final String title;
@@ -18,7 +20,7 @@ class AuthHeader extends StatelessWidget {
         SvgPicture.asset(
           'assets/icons/logoPop.svg',
         ),
-        SizedBox(height: 50.0),
+        SizedBox(height: kAuthLogoSpacing),
         Align(
           alignment: Alignment.centerLeft,
           child: Text(
@@ -26,7 +28,7 @@ class AuthHeader extends StatelessWidget {
             style: kTitleText,
           ),
         ),
-        SizedBox(height: 30.0),
+        SizedBox(height: kAuthTitleSpacing),
       ],
     );
   }

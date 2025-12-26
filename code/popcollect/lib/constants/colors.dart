@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 
-class AppColors {
-  static const primary = Color(0xFF587DBD);
+const Color kPrimaryColor = Color(0xFF587DBD);
+const Color kAccentColor = Color(0xFFF8BD00);
 
-  static const textPrimary = Colors.black;
-  static const textSecondary = Colors.grey;
+const Color kTextPrimary = Colors.black;
+const Color kTextSecondary = Colors.grey;
 
-  static const background = Colors.white;
-
-  static const shadow = Colors.black12;
-}
+const Color kCardBorderColor = Color(0xFFE0E0E0);
+const Color kProgressBackground = Color(0xFFE0E0E0);

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../constants/sizes.dart';
+
 class MyTextInput extends StatelessWidget {
   final TextEditingController? controller;
   final String labelText;
@@ -36,7 +38,7 @@ class MyTextInput extends StatelessWidget {
         suffixIcon: suffixIcon,
         contentPadding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(30),
+          borderRadius: BorderRadius.circular(kBorderRadiusButton),
         ),
       ),
     );

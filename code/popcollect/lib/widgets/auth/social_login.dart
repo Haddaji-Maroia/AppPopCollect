@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter/material.dart';
+import '../../constants/sizes.dart';
 
 class SocialLogin extends StatelessWidget {
   const SocialLogin({super.key});
@@ -7,12 +8,19 @@ class SocialLogin extends StatelessWidget {
 
   Widget _icon(String path){
     return Container(
+      padding: const EdgeInsets.all(kSocialIconPadding),
       decoration: BoxDecoration(
-          border: Border.all(color: Colors.white),
-          borderRadius: BorderRadius.circular(100)),
-      child: IconButton(
+        border: Border.all(color: Colors.white),
+        borderRadius: BorderRadius.circular(kSocialIconBorderRadius),
+      ),
+      child: SizedBox(
+        width: kSocialIconSize,
+        height: kSocialIconSize,
+        child: IconButton(
+          padding: EdgeInsets.zero,
           onPressed: () {},
-          icon: Image.asset(path)
+          icon: Image.asset(path),
+        ),
       ),
     );
   }
@@ -23,9 +31,9 @@ class SocialLogin extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         _icon('assets/icons/logos_facebook.png'),
-        SizedBox(width: 10.0),
+        SizedBox(width: kSocialIconSpacing),
         _icon('assets/icons/logos_apple.png'),
-        SizedBox(width: 10.0),
+        SizedBox(width: kSocialIconSpacing),
         _icon('assets/icons/logos_google.png'),
       ],
     );

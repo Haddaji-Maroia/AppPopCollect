@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:popcollect2/widgets/home/section_header.dart';
 import 'artist_card.dart';
+import '../../constants/sizes.dart';
 
 class ArtistsSection extends StatelessWidget {
   const ArtistsSection({super.key});
@@ -34,15 +35,15 @@ class ArtistsSection extends StatelessWidget {
           },
         ),
 
-        const SizedBox(height: 16),
+        const SizedBox(height: kSectionSpacing),
 
         // CAROUSEL
         SizedBox(
-          height: 260,
+          height: kArtistCarouselHeight,
           child: PageView.builder(
             controller: PageController(
-                viewportFraction: 0.55,
-                initialPage: 1,
+              viewportFraction: kArtistViewportFraction,
+              initialPage: kArtistInitialPage,
             ),
             itemCount: artists.length,
             itemBuilder: (context, index) {

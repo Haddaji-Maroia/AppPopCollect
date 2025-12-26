@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import '../../constants/sizes.dart';
+
+
 
 class SearchBarWidget extends StatelessWidget {
   const SearchBarWidget({super.key});
@@ -15,15 +18,17 @@ class SearchBarWidget extends StatelessWidget {
         ),
       ),
       backgroundColor: WidgetStatePropertyAll<Color?>(Colors.white),
-      elevation: WidgetStatePropertyAll<double?>(0.0),
+      elevation: WidgetStatePropertyAll<double?>(kSearchBarElevation),
 
       shape: WidgetStatePropertyAll<OutlinedBorder>(
         RoundedRectangleBorder(
           side: BorderSide(
             color: Colors.black,
-            width: 1.0,
+            width: kSearchBarBorderWidth,
           ),
-          borderRadius: BorderRadius.all(Radius.circular(30.0)),
+          borderRadius: BorderRadius.all(
+            Radius.circular(kSearchBarRadius),
+          ),
         ),
       ),
     );

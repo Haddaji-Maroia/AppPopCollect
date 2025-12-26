@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../constants/fonts.dart';
+import '../../constants/sizes.dart';
 import 'product_card.dart';
 
 class ProductItem extends StatelessWidget {
@@ -20,12 +22,10 @@ class ProductItem extends StatelessWidget {
           imagePath: imagePath,
           productName: title,
         ),
-        const SizedBox(height: 6),
+        const SizedBox(height: kProductTitleSpacing),
         Text(
           title,
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-          ),
+          style: kProductTitleText,
         ),
       ],
     );

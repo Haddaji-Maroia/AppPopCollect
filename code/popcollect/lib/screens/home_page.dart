@@ -5,6 +5,8 @@ import 'package:popcollect2/screens/wishlist_page.dart';
 import 'collection/collection_page.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../constants/sizes.dart';
+import '../constants/fonts.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({super.key});
@@ -34,7 +36,7 @@ class _HomePageState extends State<HomePage> {
       label: label,
       icon: SvgPicture.asset(
         iconPath,
-        width: 28,
+        width: kNavIconSize,
         colorFilter: const ColorFilter.mode(
           Colors.black,
           BlendMode.srcIn,
@@ -42,7 +44,7 @@ class _HomePageState extends State<HomePage> {
       ),
       selectedIcon: SvgPicture.asset(
         iconPath,
-        width: 28,
+        width: kNavIconSize,
         colorFilter: const ColorFilter.mode(
           Color(0xFFF8BD00),
           BlendMode.srcIn,
@@ -66,20 +68,12 @@ class _HomePageState extends State<HomePage> {
         labelTextStyle: WidgetStateProperty.resolveWith(
           (states) {
             if (states.contains(WidgetState.selected)) {
-              return const TextStyle(
-                color: Color(0xFFF8BD00),
-                fontSize: 14,
-                fontWeight: FontWeight.bold,
-              );
+              return kNavLabelSelected;
             }
-            return const TextStyle(
-              color: Colors.black,
-              fontSize: 12,
-              fontWeight: FontWeight.w500,
-            );
+            return kNavLabelUnselected;
           },
         ),
-        height: 70,
+        height: kBottomNavHeight,
         destinations: [
           _navItem(
             label: 'Home',
