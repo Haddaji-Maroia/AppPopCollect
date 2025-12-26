@@ -174,4 +174,10 @@ const kWhiteCaption = TextStyle(
   fontWeight: FontWeight.w500,
 );
 
+const TextStyle kBadgeTitleText = TextStyle(
+  fontSize: 12,
+  fontWeight: FontWeight.w500,
+  color: Colors.black87,
+);
+
 

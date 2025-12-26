@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:popcollect2/widgets/profile/badges_section.dart';
 import '../constants/sizes.dart';
 import '../constants/fonts.dart';
 import '../widgets/profile/profile_stats.dart';
@@ -18,7 +19,7 @@ class ProfilePage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              // ===== HEADER =====
+              //  HEADER
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -37,7 +38,7 @@ class ProfilePage extends StatelessWidget {
 
               const SizedBox(height: kSpacingM),
 
-              // ===== AVATAR =====
+              // AVATAR
               const CircleAvatar(
                 radius: kProfileAvatarRadius,
                 backgroundImage: AssetImage(
@@ -47,7 +48,7 @@ class ProfilePage extends StatelessWidget {
 
               const SizedBox(height: kSpacingS),
 
-              // ===== USERNAME =====
+              // USERNAME
               Text(
                 'sophia27',
                 style: kTitleText,
@@ -55,7 +56,6 @@ class ProfilePage extends StatelessWidget {
 
               const SizedBox(height: kSpacingXS),
 
-              // ===== SUBTITLE =====
               Text(
                 'Collecting since Oct 2023 📦',
                 style: kCaptionText,
@@ -63,7 +63,7 @@ class ProfilePage extends StatelessWidget {
 
               const SizedBox(height: kSpacingXL),
 
-              // ===== STATS =====
+              // STATS
               ProfileStats(
                 figures: 29,
                 secret: 3,
@@ -72,8 +72,13 @@ class ProfilePage extends StatelessWidget {
 
               const SizedBox(height: kSpacingXL),
 
-              // ===== RECENT ACTIVITY =====
+              // RECENT ACTIVITY
               const RecentActivitySection(),
+
+              const SizedBox(height: kSpacingXL),
+
+              const BadgesSection(),
+
             ],
           ),
         ),

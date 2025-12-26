@@ -10,11 +10,26 @@ class HomeHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text('Welcome back,', style: kWhiteSubtitle),
-        Text(username, style: kWhiteTitle),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text('Welcome back,', style: kWhiteSubtitle),
+            const SizedBox(height: 4),
+            Text(username, style: kWhiteTitle),
+          ],
+        ),
+
+        const CircleAvatar(
+          radius: 36,
+          backgroundImage: AssetImage(
+            'assets/images/avatar/avatar.jpeg',
+          ),
+        ),
       ],
     );
   }

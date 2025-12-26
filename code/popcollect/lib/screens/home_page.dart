@@ -57,9 +57,6 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('PopCollect'),
-      ),
       body: pages[currentPage],
       // BOTTOM NAVIGATION BAR
       bottomNavigationBar: NavigationBar(

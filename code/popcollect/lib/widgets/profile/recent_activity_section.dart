@@ -36,8 +36,6 @@ class RecentActivitySection extends StatelessWidget {
                 Text(title, style: kBodyBoldText),
                 const SizedBox(height: kSpacingXS),
                 Text(subtitle, style: kBodyText),
-                const SizedBox(height: kSpacingXS),
-                Text(time, style: kCaptionText),
               ],
             ),
           ),

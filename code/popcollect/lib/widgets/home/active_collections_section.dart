@@ -29,8 +29,8 @@ class ActiveCollectionsSection extends StatelessWidget {
         const SizedBox(height: kVerticalSpacingS),
         const _ActiveCollectionTile(
           name: 'SKULLPANDA',
-          progressText: '35/121 collected',
-          progress: 35 / 121,
+          progressText: '35/130 collected',
+          progress: 35 / 130,
           image: 'assets/images/collections/skull3.jpg',
         ),
       ],

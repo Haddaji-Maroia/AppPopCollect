@@ -4,7 +4,6 @@ import '../widgets/home/active_collections_section.dart';
 import '../widgets/home/charaters_section.dart';
 import '../constants/sizes.dart';
 import '../widgets/home/home_header.dart';
-import '../widgets/home/stats_row.dart';
 import '../widgets/home/suggested_next_card.dart';
 import '../widgets/home/total_progress_card.dart';
 import '../widgets/home/whats_new_section.dart';
@@ -19,7 +18,7 @@ class HomeContent extends StatelessWidget {
         children: [
           // HEADER con nome e avatar
           SizedBox(
-            height: 280,
+            height: 340,
             child: Stack(
               clipBehavior: Clip.none,
               children: [
@@ -28,7 +27,7 @@ class HomeContent extends StatelessWidget {
                   width: double.infinity,
                   padding: const EdgeInsets.only(
                     top: kVerticalSpacingXL,
-                    bottom: kVerticalSpacingL,
+                    bottom: kVerticalSpacingXL * 2,
                     left: kHorizontalPadding,
                     right: kHorizontalPadding,
                   ),
@@ -42,16 +41,6 @@ class HomeContent extends StatelessWidget {
                   child: const SafeArea(
                     bottom: false,
                     child: HomeHeader(username: 'sophia27'),
-                  ),
-                ),
-
-                // Avatar
-                Positioned(
-                  top: kVerticalSpacingXL,
-                  right: kHorizontalPadding,
-                  child: CircleAvatar(
-                    radius: 36,
-                    backgroundImage: AssetImage('assets/images/avatar/avatar.jpeg'),
                   ),
                 ),
 
@@ -71,9 +60,6 @@ class HomeContent extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: const [
                 SizedBox(height: kVerticalSpacingXL),
-
-                StatsRow(),
-                SizedBox(height: kVerticalSpacingL),
 
                 WhatsNewSection(),
                 SizedBox(height: kVerticalSpacingL),
