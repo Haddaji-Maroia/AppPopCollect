@@ -15,29 +15,29 @@ class BadgeCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 110,
+      width: kBadgeCardWidth,
       padding: const EdgeInsets.all(kSpacingM),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(kBorderRadius),
         border: Border.all(
           color: const Color(0xFFF5C84C),
-          width: 1.5,
+          width: kBorderWidthThin,
         ),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            width: 48,
-            height: 48,
+            width: kBadgeIconBoxSize,
+            height: kBadgeIconBoxSize,
             decoration: BoxDecoration(
               color: const Color(0xFFFFA726),
-              borderRadius: BorderRadius.circular(14),
+              borderRadius: BorderRadius.circular(kBorderRadiusS),
             ),
             child: Icon(
               icon,
               color: Colors.white,
-              size: 26,
+              size: kBadgeIconSize,
             ),
           ),
 

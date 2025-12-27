@@ -7,12 +7,16 @@ class ActivityCard extends StatelessWidget {
   final String title;
   final String subtitle;
   final String date;
+  final IconData icon;
+  final Color iconBg;
 
   const ActivityCard({
     super.key,
     required this.title,
     required this.subtitle,
     required this.date,
+    required this.icon,
+    required this.iconBg,
   });
 
   @override
@@ -25,22 +29,30 @@ class ActivityCard extends StatelessWidget {
         border: Border.all(color: Colors.grey.shade300),
       ),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            width: 40,
-            height: 40,
+            width: kActivityIconBoxSize,
+            height: kActivityIconBoxSize,
             decoration: BoxDecoration(
-              color: Colors.purple.shade200,
-              borderRadius: BorderRadius.circular(8),
+              color: iconBg,
+              borderRadius: BorderRadius.circular(kBorderRadiusS),
+            ),
+            child: Icon(
+              icon,
+              color: Colors.white,
+              size: kActivityIconSize,
             ),
           ),
-          const SizedBox(width: 12),
+          const SizedBox(width: kSpacingM),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(title, style: kBodyBoldText),
+                const SizedBox(height: kSpacingXS),
                 Text(subtitle, style: kBodyText),
+                const SizedBox(height: kSpacingXS),
                 Text(date, style: kCaptionText),
               ],
             ),

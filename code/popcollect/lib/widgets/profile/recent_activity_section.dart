@@ -1,48 +1,11 @@
 import 'package:flutter/material.dart';
 import '../../constants/sizes.dart';
 import '../../constants/fonts.dart';
-import '../../constants/colors.dart';
+import 'activity_card.dart';
 
 class RecentActivitySection extends StatelessWidget {
   const RecentActivitySection({super.key});
 
-  Widget _activityCard({
-    required String title,
-    required String subtitle,
-    required String time,
-  }) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: kSpacingS),
-      padding: const EdgeInsets.all(kPaddingM),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(kBorderRadius),
-        border: Border.all(color: kCardBorderColor),
-      ),
-      child: Row(
-        children: [
-          Container(
-            width: 40,
-            height: 40,
-            decoration: BoxDecoration(
-              color: Colors.purple.shade200,
-              borderRadius: BorderRadius.circular(kBorderRadiusS),
-            ),
-          ),
-          const SizedBox(width: kSpacingM),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(title, style: kBodyBoldText),
-                const SizedBox(height: kSpacingXS),
-                Text(subtitle, style: kBodyText),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,20 +15,26 @@ class RecentActivitySection extends StatelessWidget {
         const Text('Recent Activity', style: kSectionTitleText),
         const SizedBox(height: kSpacingM),
 
-        _activityCard(
+        const ActivityCard(
+          icon: Icons.check,
+          iconBg: Colors.green,
           title: 'New figure added',
           subtitle: 'Vampire – Monsters Carnival',
-          time: '2 days ago',
+          date: '2 days ago',
         ),
-        _activityCard(
+        const ActivityCard(
+          icon: Icons.star,
+          iconBg: Colors.amber,
           title: 'Secret figure found!',
           subtitle: 'Witch Cat – City of Mercy',
-          time: '1 week ago',
+          date: '1 week ago',
         ),
-        _activityCard(
+        const ActivityCard(
+          icon: Icons.emoji_events,
+          iconBg: Colors.purple,
           title: 'Achievement unlocked',
           subtitle: 'Multi-Series Pro',
-          time: '2 weeks ago',
+          date: '2 weeks ago',
         ),
       ],
     );

@@ -155,6 +155,20 @@ const kMediumIconSize = 22.0;
 
 const kProgressIconSize = 48.0;
 
+// ICON / AVATAR SIZES
+const double kActivityIconSize = 22.0;
+const double kActivityIconBoxSize = 45.0;
+
+const double kBadgeIconBoxSize = 48.0;
+const double kBadgeIconSize = 26.0;
+
+// CARD SIZES
+const double kBadgeCardWidth = 110.0;
+
+// Borders
+const double kBorderWidthThin = 1.5;
+
+
 
 
 
