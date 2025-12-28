@@ -75,7 +75,7 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(kHorizontalPadding),
+          padding: const EdgeInsets.all(kPagePadding),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -100,7 +100,7 @@ class _LoginPageState extends State<LoginPage> {
                           style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xFF587DBD),
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(kBorderRadiusButton),
+                              borderRadius: BorderRadius.circular(kRadiusL),
                             ),
                           ),
                           child: const Text(
@@ -122,7 +122,7 @@ class _LoginPageState extends State<LoginPage> {
                           style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xFF587DBD),
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(kBorderRadiusButton),
+                              borderRadius: BorderRadius.circular(kRadiusL),
                             ),
                           ),
                           child: const Text(

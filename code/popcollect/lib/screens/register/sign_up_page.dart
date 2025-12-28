@@ -40,7 +40,7 @@ class _SignUpPageState extends State<SignUpPage> {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(kHorizontalPadding),
+          padding: const EdgeInsets.all(kPagePadding),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -52,11 +52,11 @@ class _SignUpPageState extends State<SignUpPage> {
                   child: Column(
                     children: [
                       UserNameInput(),
-                      const SizedBox(height: kVerticalSpacingM),
+                      const SizedBox(height: kPaddingM),
                       EmailInput(controller: emailController),
-                      const SizedBox(height: kVerticalSpacingM),
+                      const SizedBox(height: kPaddingM),
                       PasswordInput(controller: passwordController),
-                      const SizedBox(height: kVerticalSpacingL),
+                      const SizedBox(height: kPaddingL),
 
                       SizedBox(
                         width: double.infinity,
@@ -65,7 +65,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xFF587DBD),
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(kBorderRadiusButton),
+                              borderRadius: BorderRadius.circular(kRadiusL),
                             ),
                           ),
                           onPressed: () async {
@@ -109,7 +109,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xFF587DBD),
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(kBorderRadiusButton),
+                              borderRadius: BorderRadius.circular(kRadiusL),
                             ),
                           ),
                           onPressed: () {
@@ -126,7 +126,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 ),
               ),
 
-              const SizedBox(height: kVerticalSpacingM),
+              const SizedBox(height: kSpacingM),
               const SocialLogin(),
             ],
           ),

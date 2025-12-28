@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../constants/sizes.dart';
 import '../../constants/fonts.dart';
+import '../../screens/collection/collection_page.dart';
 
 class ActiveCollectionsSection extends StatelessWidget {
   const ActiveCollectionsSection({super.key});
@@ -12,9 +13,20 @@ class ActiveCollectionsSection extends StatelessWidget {
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: const [
-            Text('Active Collections', style: kSectionTitle),
-            Text('View All', style: kLinkText),
+          children: [
+            const Text('Active Collections', style: kSectionTitle),
+            GestureDetector(
+              onTap: () {
+                Navigator.pushNamed(
+                  context,
+                  CollectionPage.routeName,
+                );
+              },
+              child: const Text(
+                'View All',
+                style: kLinkText,
+              ),
+            ),
           ],
         ),
 

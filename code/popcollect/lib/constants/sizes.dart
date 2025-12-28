@@ -168,6 +168,30 @@ const double kBadgeCardWidth = 110.0;
 // Borders
 const double kBorderWidthThin = 1.5;
 
+// Hirono pages
+const double kPagePadding = 16.0;
+
+// Cards
+const double kCardSpacing = 12.0;
+const double kCardElevation = 2.0;
+
+const double kSeriesStarSize = 16;
+const double kSeriesStarGap = 6;
+
+const double kOverallCardPadding = 16;
+const double kOverallCardRadius = 12;
+
+const double kOverallTitleSpacing = 8;
+const double kOverallProgressSpacing = 12;
+const double kOverallPercentSpacing = 8;
+
+const double kFilterSpacing = 8;
+
+const double kIconS = 18.0;
+const double kIconM = 22.0;
+const double kIconL = 26.0;
+
+
 
 
 

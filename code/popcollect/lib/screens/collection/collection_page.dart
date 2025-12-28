@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../constants/fonts.dart';
 import '../../constants/sizes.dart';
 import '../../widgets/collection/collection_card.dart';
+import 'hirono_page.dart';
 
 class CollectionPage extends StatelessWidget {
   static const routeName = '/collection';
@@ -13,10 +14,11 @@ class CollectionPage extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(kHorizontalPadding),
+          padding: const EdgeInsets.all(kPagePadding),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // HEADER
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: const [
@@ -24,25 +26,37 @@ class CollectionPage extends StatelessWidget {
                     'My Collections',
                     style: kTitleText,
                   ),
-                Text(
-                  '5 collections',
-                  style: kSecondaryText,
-                 ),
+                  Text(
+                    '5 collections',
+                    style: kSecondaryText,
+                  ),
                 ],
               ),
 
-              SizedBox(height: kSpacingL),
+              const SizedBox(height: kSpacingL),
 
-              CollectionCard(
-                name: 'Hirono',
-                image: 'assets/images/collections/hirono3.jpeg',
-                owned: 29,
-                total: 101,
-                price: 187.50,
-                secret: 6,
+              // HIRONO (cliccabile)
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const HironoPage(),
+                    ),
+                  );
+                },
+                child: const CollectionCard(
+                  name: 'Hirono',
+                  image: 'assets/images/collections/hirono3.jpeg',
+                  owned: 29,
+                  total: 101,
+                  price: 187.50,
+                  secret: 6,
+                ),
               ),
 
-              CollectionCard(
+              // ALTRE COLLEZIONI
+              const CollectionCard(
                 name: 'SKULLPANDA',
                 image: 'assets/images/collections/skull3.jpg',
                 owned: 12,
@@ -51,7 +65,7 @@ class CollectionPage extends StatelessWidget {
                 secret: 1,
               ),
 
-              CollectionCard(
+              const CollectionCard(
                 name: 'DIMOO',
                 image: 'assets/images/collections/dimoo.jpg',
                 owned: 12,
@@ -60,7 +74,7 @@ class CollectionPage extends StatelessWidget {
                 secret: 1,
               ),
 
-              CollectionCard(
+              const CollectionCard(
                 name: 'AZURA',
                 image: 'assets/images/collections/azura.jpg',
                 owned: 5,
@@ -69,7 +83,7 @@ class CollectionPage extends StatelessWidget {
                 secret: 1,
               ),
 
-              CollectionCard(
+              const CollectionCard(
                 name: 'KUBO',
                 image: 'assets/images/collections/kubo.jpg',
                 owned: 3,

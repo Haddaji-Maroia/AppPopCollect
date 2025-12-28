@@ -48,9 +48,12 @@ class CollectionCard extends StatelessWidget {
                   style: kCardTitleText,
                 ),
 
-                const SizedBox(width: kSpacingM),
+                const SizedBox(height: kSpacingS),
 
-                Text('$owned of $total collected'),
+                Text(
+                  '$owned / $total collected',
+                  style: kSmallGreyText,
+                ),
 
                 const SizedBox(height: kSpacingS),
                 CollectionProgressBar(
@@ -64,7 +67,11 @@ class CollectionCard extends StatelessWidget {
                     Text('€${price.toStringAsFixed(2)}'),
                     if (secret > 0) ...[
                       const SizedBox(width: kSpacingM),
-                      const Icon(Icons.star, size: 16, color: Colors.purple),
+                      const Icon(
+                          Icons.star,
+                          size: kSeriesStarSize,
+                          color: Colors.purple
+                      ),
                       Text(' $secret Secret'),
                     ],
                   ],

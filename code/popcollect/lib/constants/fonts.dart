@@ -16,6 +16,11 @@ const TextStyle kCardTitleText = TextStyle(
   fontWeight: FontWeight.bold,
 );
 
+const TextStyle kCardTitleHirono = TextStyle(
+  fontSize: 16,
+  fontWeight: FontWeight.bold,
+);
+
 const TextStyle kBodyText = TextStyle(
   fontSize: 14,
   fontWeight: FontWeight.w500,
@@ -180,4 +185,56 @@ const TextStyle kBadgeTitleText = TextStyle(
   color: Colors.black87,
 );
 
+// PURPLE SMALL (SECRET)
+const TextStyle kSmallPurpleText = TextStyle(
+  fontSize: 13,
+  color: Colors.purple,
+  fontWeight: FontWeight.w500,
+);
+
+const TextStyle kOverallTitleText = TextStyle(
+  color: Colors.white,
+);
+
+const TextStyle kOverallValueText = TextStyle(
+  color: Colors.white,
+  fontSize: 22,
+  fontWeight: FontWeight.bold,
+);
+
+const TextStyle kOverallPercentText = TextStyle(
+  color: Colors.white,
+);
+
+
+const TextStyle kCardTitleSmall = TextStyle(
+  fontSize: 15,
+  fontWeight: FontWeight.w600,
+);
+
+const TextStyle kBody = TextStyle(
+  fontSize: 14,
+  fontWeight: FontWeight.w500,
+);
+
+const TextStyle kBodyBold = TextStyle(
+  fontSize: 14,
+  fontWeight: FontWeight.w600,
+);
+
+const TextStyle kSubtitle = TextStyle(
+  fontSize: 14,
+  color: Colors.grey,
+);
+
+const TextStyle kSmallGrey = TextStyle(
+  fontSize: 12,
+  color: Colors.grey,
+);
+
+const TextStyle kWhiteBigNumber = TextStyle(
+  fontSize: 32,
+  fontWeight: FontWeight.bold,
+  color: Colors.white,
+);
 

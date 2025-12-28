@@ -9,7 +9,7 @@ import '../constants/sizes.dart';
 import '../constants/fonts.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({super.key});
+  const HomePage({super.key});
 
   static const String routeName = '/homePage';
 

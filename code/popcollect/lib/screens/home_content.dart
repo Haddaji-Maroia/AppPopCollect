@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:popcollect2/widgets/home/artists_section.dart';
-import '../widgets/home/active_collections_section.dart';
+
 import '../widgets/home/charaters_section.dart';
 import '../constants/sizes.dart';
 import '../widgets/home/home_header.dart';
@@ -16,24 +16,26 @@ class HomeContent extends StatelessWidget {
     return SingleChildScrollView(
       child: Column(
         children: [
-          // HEADER con nome e avatar
+          // HEADER
           SizedBox(
             height: 340,
             child: Stack(
               clipBehavior: Clip.none,
               children: [
-
                 Container(
                   width: double.infinity,
                   padding: const EdgeInsets.only(
-                    top: kVerticalSpacingXL,
-                    bottom: kVerticalSpacingXL * 2,
-                    left: kHorizontalPadding,
-                    right: kHorizontalPadding,
+                    top: kSpacingXL,
+                    bottom: kSpacingXL * 2,
+                    left: kPagePadding,
+                    right: kPagePadding,
                   ),
                   decoration: const BoxDecoration(
                     gradient: LinearGradient(
-                      colors: [Color(0xFF3B5BFF), Color(0xFF7C3AED)],
+                      colors: [
+                        Color(0xFF3B5BFF),
+                        Color(0xFF7C3AED),
+                      ],
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                     ),
@@ -45,9 +47,9 @@ class HomeContent extends StatelessWidget {
                 ),
 
                 Positioned(
-                  left: kHorizontalPadding,
-                  right: kHorizontalPadding,
-                  bottom: -kVerticalSpacingM,
+                  left: kPagePadding,
+                  right: kPagePadding,
+                  bottom: -kSpacingM,
                   child: const TotalProgressCard(),
                 ),
               ],
@@ -55,23 +57,20 @@ class HomeContent extends StatelessWidget {
           ),
 
           Padding(
-            padding: const EdgeInsets.all(kHorizontalPadding),
+            padding: const EdgeInsets.all(kPagePadding),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: const [
-                SizedBox(height: kVerticalSpacingXL),
+                SizedBox(height: kSpacingXL),
 
                 WhatsNewSection(),
-                SizedBox(height: kVerticalSpacingL),
+                SizedBox(height: kSpacingL),
 
                 SuggestedNextCard(),
-                SizedBox(height: kVerticalSpacingXL),
-
-                ActiveCollectionsSection(),
-                SizedBox(height: kVerticalSpacingXL),
+                SizedBox(height: kSpacingXL),
 
                 CharactersSection(),
-                SizedBox(height: kVerticalSpacingXL),
+                SizedBox(height: kSpacingXL),
 
                 ArtistsSection(),
               ],
@@ -82,4 +81,3 @@ class HomeContent extends StatelessWidget {
     );
   }
 }
-
