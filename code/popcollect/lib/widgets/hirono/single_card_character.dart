@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
 class SingleCardCharacter extends StatelessWidget {
-  final String nome;
-  final bool ceLho;
+  final String name;
+  final bool owned;
 
   const SingleCardCharacter({
     super.key,
-    required this.nome,
-    required this.ceLho,
+    required this.name,
+    required this.owned,
   });
 
   @override
@@ -22,20 +22,20 @@ class SingleCardCharacter extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(
-            ceLho ? Icons.check_circle : Icons.radio_button_unchecked,
-            color: ceLho ? Colors.green : Colors.grey,
+            owned ? Icons.check_circle : Icons.radio_button_unchecked,
+            color: owned ? Colors.green : Colors.grey,
             size: 40,
           ),
           const SizedBox(height: 10),
           Text(
-            nome,
+            name,
             style: const TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 16,
             ),
           ),
           Text(
-            ceLho ? 'Owned' : 'Missing',
+            owned ? 'Owned' : 'Missing',
           ),
         ],
       ),

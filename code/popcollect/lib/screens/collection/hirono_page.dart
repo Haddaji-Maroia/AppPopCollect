@@ -3,6 +3,7 @@ import '../../constants/colors.dart';
 import '../../constants/fonts.dart';
 import '../../constants/sizes.dart';
 import '../../widgets/collection/collection_progress_bar.dart';
+import '../../widgets/hirono/progress_card.dart';
 import 'hirono_series_page.dart';
 import '../../widgets/hirono/series_card.dart';
 
@@ -45,43 +46,10 @@ class _HironoPageState extends State<HironoPage> {
         padding: const EdgeInsets.all(kPagePadding),
         children: [
 
-          Container(
-            padding: const EdgeInsets.all(kOverallCardPadding),
-            decoration: BoxDecoration(
-              color: kOverallCardColor,
-              borderRadius: BorderRadius.circular(kOverallCardRadius),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  'Overall Progress',
-                  style: kOverallTitleText,
-                ),
-
-                const SizedBox(height: kOverallTitleSpacing),
-
-                Text(
-                  '$totalOwned / $totalFigures',
-                  style: kOverallValueText,
-                ),
-
-                const SizedBox(height: kOverallProgressSpacing),
-
-                CollectionProgressBar(
-                  owned: totalOwned,
-                  total: totalFigures,
-                  color: Colors.white,
-                ),
-
-                const SizedBox(height: kOverallPercentSpacing),
-
-                Text(
-                  '${(overallProgress * 100).round()}%',
-                  style: kOverallPercentText,
-                ),
-              ],
-            ),
+          ProgressCard(
+            title: 'Overall Progress',
+            owned: totalOwned,
+            total: totalFigures,
           ),
 
 
@@ -143,7 +111,7 @@ class _HironoPageState extends State<HironoPage> {
 
           if (_showSeries(4, 13))
             SeriesCard(
-              image: 'assets/images/hirono_series/serie2.png',
+              image: 'assets/images/hirono_series/serie2.jpg',
               title: 'Series 2: Little Mischief',
               owned: 4,
               total: 13,
