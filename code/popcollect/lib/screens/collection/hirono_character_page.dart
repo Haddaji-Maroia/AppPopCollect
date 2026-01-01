@@ -1,58 +1,108 @@
 import 'package:flutter/material.dart';
 import '../../constants/sizes.dart';
-import '../../constants/fonts.dart';
+import '../../models/series_character.dart';
+import '../../widgets/other_one/character_header_image.dart';
+import '../../widgets/other_one/character_info.dart';
+import '../../widgets/other_one/collection_button.dart';
+import '../../widgets/other_one/collection_details_form.dart';
 
-class HironoCharacterPage extends StatelessWidget {
-  const HironoCharacterPage({super.key});
+
+class HironoCharacterPage extends StatefulWidget {
+  final SeriesCharacter character;
+
+  const HironoCharacterPage({
+    super.key,
+    required this.character,
+  });
+
+  @override
+  State<HironoCharacterPage> createState() => _HironoCharacterPageState();
+}
+
+class _HironoCharacterPageState extends State<HironoCharacterPage> {
+  bool inCollection = false;
+  bool editMode = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Hirono Vampire'),
-        leading: BackButton(),
+        leading: const BackButton(),
+        title: Text(widget.character.name),
+        actions: [
+          if (inCollection)
+            TextButton.icon(
+              onPressed: () {
+                setState(() => editMode = !editMode);
+              },
+              icon: const Icon(Icons.edit, size: 18),
+              label: Text(editMode ? 'Done' : 'Edit'),
+            ),
+        ],
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(kHorizontalPadding),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // IMAGE
-            Container(
-              height: 300,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: Colors.grey.shade300,
-                borderRadius: BorderRadius.circular(kBorderRadius),
-              ),
-              child: const Center(
-                child: Icon(Icons.image, size: 80),
-              ),
+      body: ListView(
+        padding: const EdgeInsets.all(kPagePadding),
+        children: [
+          CharacterHeaderImage(
+            image: widget.character.image,
+            editMode: editMode,
+            onRemove: () {
+              // SOLO rimozione foto (futura)
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Photo removed')),
+              );
+
+            },
+          ),
+
+          const SizedBox(height: kSpacingL),
+
+          CharacterInfo(character: widget.character),
+
+          const SizedBox(height: kSpacingL),
+
+          // ADD / IN COLLECTION
+          if (!inCollection)
+            CollectionButton(
+              inCollection: false,
+              onAdd: () => setState(() => inCollection = true),
+            )
+          else
+            Column(
+              children: [
+                // IN COLLECTION
+                CollectionButton(
+                  inCollection: true,
+                ),
+
+                const SizedBox(height: kSpacingS),
+
+                // REMOVE FROM COLLECTION
+                OutlinedButton.icon(
+                  onPressed: () {
+                    setState(() {
+                      inCollection = false;
+                      editMode = false;
+                    });
+                  },
+                  icon: const Icon(Icons.delete, color: Colors.red),
+                  label: const Text(
+                    'Remove from Collection',
+                    style: TextStyle(color: Colors.red),
+                  ),
+                ),
+              ],
             ),
 
-            const SizedBox(height: kSpacingL),
 
-            Text('Hirono Vampire', style: kTitleText),
-            const SizedBox(height: kSpacingS),
+          const SizedBox(height: kSpacingL),
 
-            Text('Series: Monsters Carnival', style: kBodyText),
-            Text('Artist: Lang', style: kBodyText),
-            Text('Rarity: Standard', style: kBodyText),
-
-            const SizedBox(height: kSpacingL),
-
-            // CRUD ENTRY POINT
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () {
-                  // TODO: qui faccio il CRUD
-                },
-                child: const Text('Add to Collection'),
-              ),
+          if (inCollection)
+            CollectionDetailsForm(
+              onCancel: () => setState(() => editMode = false),
+              onSave: () => setState(() => editMode = false),
             ),
-          ],
-        ),
+        ],
       ),
     );
   }
