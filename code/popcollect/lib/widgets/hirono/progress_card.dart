@@ -17,7 +17,7 @@ class ProgressCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final int percent = ((owned / total) * 100).round();
+    final int percent = total == 0 ? 0 : ((owned / total) * 100).round();
 
     return Container(
       padding: const EdgeInsets.all(kOverallCardPadding),
@@ -28,12 +28,10 @@ class ProgressCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // SOLO TITOLO
           Text(title, style: kWhiteSubtitle),
 
           const SizedBox(height: kSpacingS),
 
-          // NUMERO GRANDE + BOX PERCENTUALE (ALLINEATI)
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -64,7 +62,6 @@ class ProgressCard extends StatelessWidget {
 
           const SizedBox(height: kSpacingM),
 
-          // BARRA LUNGA TUTTA
           CollectionProgressBar(
             owned: owned,
             total: total,

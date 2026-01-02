@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import '../../constants/sizes.dart';
-import '../../models/series_character.dart';
 import '../../widgets/other_one/character_header_image.dart';
 import '../../widgets/other_one/character_info.dart';
 import '../../widgets/other_one/collection_button.dart';
 import '../../widgets/other_one/collection_details_form.dart';
-
+import 'package:dto/dto.dart';
 
 class HironoCharacterPage extends StatefulWidget {
-  final SeriesCharacter character;
+  final HironoCharacter character;
 
   const HironoCharacterPage({
     super.key,
@@ -20,17 +19,18 @@ class HironoCharacterPage extends StatefulWidget {
 }
 
 class _HironoCharacterPageState extends State<HironoCharacterPage> {
-  bool inCollection = false;
   bool editMode = false;
 
   @override
   Widget build(BuildContext context) {
+    final isCharacterOwned = widget.character.isOwned;
+
     return Scaffold(
       appBar: AppBar(
         leading: const BackButton(),
         title: Text(widget.character.name),
         actions: [
-          if (inCollection)
+          if (isCharacterOwned)
             TextButton.icon(
               onPressed: () {
                 setState(() => editMode = !editMode);
@@ -47,11 +47,9 @@ class _HironoCharacterPageState extends State<HironoCharacterPage> {
             image: widget.character.image,
             editMode: editMode,
             onRemove: () {
-              // SOLO rimozione foto (futura)
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(content: Text('Photo removed')),
               );
-
             },
           ),
 
@@ -61,46 +59,50 @@ class _HironoCharacterPageState extends State<HironoCharacterPage> {
 
           const SizedBox(height: kSpacingL),
 
-          // ADD / IN COLLECTION
-          if (!inCollection)
-            CollectionButton(
-              inCollection: false,
-              onAdd: () => setState(() => inCollection = true),
-            )
-          else
-            Column(
-              children: [
-                // IN COLLECTION
-                CollectionButton(
-                  inCollection: true,
-                ),
+          // AGGIUNTA ALLA COLLEZIONE
+          CollectionButton(
+            inCollection: isCharacterOwned,
+            onAdd: () {
+              final updatedCharacter = widget.character.copyWith(isOwned: true);
+              Navigator.pop(context, updatedCharacter);
+            },
+            onRemove: () {},
+          ),
 
-                const SizedBox(height: kSpacingS),
+          const SizedBox(height: kSpacingS),
 
-                // REMOVE FROM COLLECTION
-                OutlinedButton.icon(
-                  onPressed: () {
-                    setState(() {
-                      inCollection = false;
-                      editMode = false;
-                    });
-                  },
-                  icon: const Icon(Icons.delete, color: Colors.red),
-                  label: const Text(
-                    'Remove from Collection',
-                    style: TextStyle(color: Colors.red),
-                  ),
-                ),
-              ],
+          // RIMOZIONE DALLA COLLEZIONE
+          if (isCharacterOwned)
+            OutlinedButton.icon(
+              style: OutlinedButton.styleFrom(
+                minimumSize: const Size.fromHeight(50),
+                side: const BorderSide(color: Colors.red),
+              ),
+              onPressed: () {
+                final updatedCharacter = widget.character.copyWith(
+                    isOwned: false,
+                    price: 0.0
+                );
+                Navigator.pop(context, updatedCharacter);
+              },
+              icon: const Icon(Icons.delete, color: Colors.red),
+              label: const Text(
+                'Remove from Collection',
+                style: TextStyle(color: Colors.red),
+              ),
             ),
-
 
           const SizedBox(height: kSpacingL),
 
-          if (inCollection)
+          // MINI FORM
+          if (isCharacterOwned)
             CollectionDetailsForm(
+              initialPrice: widget.character.price,
               onCancel: () => setState(() => editMode = false),
-              onSave: () => setState(() => editMode = false),
+              onSave: (newPrice) {
+                final updatedCharacter = widget.character.copyWith(price: newPrice ?? 0.0);
+                Navigator.pop(context, updatedCharacter);
+              },
             ),
         ],
       ),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../constants/sizes.dart';
+import '../../constants/sizes.dart';
 
 class CharacterHeaderImage extends StatelessWidget {
   final String image;
@@ -17,13 +17,14 @@ class CharacterHeaderImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
+        // Image Hirono Vangrancy
         ClipRRect(
           borderRadius: BorderRadius.circular(kRadiusM),
           child: Image.asset(
             image,
-            height: 260,
             width: double.infinity,
-            fit: BoxFit.cover,
+            height: 320,
+            fit: BoxFit.contain,
           ),
         ),
 
@@ -34,28 +35,16 @@ class CharacterHeaderImage extends StatelessWidget {
                 color: Colors.black.withOpacity(0.5),
                 borderRadius: BorderRadius.circular(kRadiusM),
               ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ElevatedButton.icon(
-                    onPressed: () {},
-                    icon: const Icon(Icons.camera_alt),
-                    label: const Text('Change Photo'),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.white,
-                      foregroundColor: Colors.black,
-                    ),
+              child: Center(
+                child: ElevatedButton.icon(
+                  onPressed: onRemove,
+                  icon: const Icon(Icons.camera_alt),
+                  label: const Text('Change Photo'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.white,
+                    foregroundColor: Colors.black,
                   ),
-                  const SizedBox(width: 12),
-                  ElevatedButton.icon(
-                    onPressed: onRemove,
-                    icon: const Icon(Icons.close),
-                    label: const Text('Remove'),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.red,
-                    ),
-                  ),
-                ],
+                ),
               ),
             ),
           ),

@@ -1,10 +1,11 @@
+import 'package:dto/dto.dart';
 import 'package:flutter/material.dart';
 import '../../../constants/fonts.dart';
 import '../../../constants/sizes.dart';
-import '../../../models/series_character.dart';
+
 
 class CharacterInfo extends StatelessWidget {
-  final SeriesCharacter character;
+  final HironoCharacter character;
 
   const CharacterInfo({
     super.key,

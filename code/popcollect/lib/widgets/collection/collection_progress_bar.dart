@@ -16,7 +16,7 @@ class CollectionProgressBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LinearProgressIndicator(
-      value: owned / total,
+      value: total == 0 ? 0 : owned / total,
       minHeight: kProgressBarHeight,
       borderRadius: BorderRadius.circular(kBorderRadiusS),
       valueColor: AlwaysStoppedAnimation<Color>(color),

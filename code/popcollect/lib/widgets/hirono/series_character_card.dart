@@ -69,22 +69,25 @@ class SeriesCharacterCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(name, style: kCardTitle),
-                const SizedBox(height: 2),
-                const Text('Standard', style: kSmallGrey),
+                const SizedBox(height: 4),
 
-                const SizedBox(height: kSpacingS),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text('Standard', style: kSmallGrey),
 
-                // PRICE (only if owned)
-                if (owned && price != null)
-                  Text(
-                    '€ ${price!.toStringAsFixed(2)}',
-                    style: const TextStyle(
-                      color: Colors.green,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                    if (owned && price != null)
+                      Text(
+                        '€ ${price!.toStringAsFixed(2)}',
+                        style: const TextStyle(
+                          color: Colors.green,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                  ],
+                ),
 
-                const SizedBox(height: kSpacingS),
+                const SizedBox(height: kSpacingM),
 
                 /// ACTIONS
                 if (!owned)
