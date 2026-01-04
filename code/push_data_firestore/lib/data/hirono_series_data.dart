@@ -12,7 +12,7 @@ final hironoSeriesList = [
   const HironoSeries(
     id: 'little_mischief',
     title: 'Series 2: Little Mischief',
-    image: 'assets/images/hirono_series/serie2.png',
+    image: 'assets/images/hirono_series/serie2.jpg',
     total: 13,
     secret: 1,
     description: 'Exploring the playful and dark side of childhood.',

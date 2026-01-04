@@ -15,5 +15,6 @@ abstract class HironoSeries with _$HironoSeries {
     final String? description,
   }) = _HironoSeries;
 
-  factory HironoSeries.fromJson(Map<String, dynamic> json) => _$HironoSeriesFromJson(json);
+  factory HironoSeries.fromJson(Map<String, dynamic> json) =>
+      _$HironoSeriesFromJson(json);
 }

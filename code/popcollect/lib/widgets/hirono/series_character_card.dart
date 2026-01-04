@@ -42,7 +42,7 @@ class SeriesCharacterCard extends StatelessWidget {
                 ),
                 child: Image.asset(
                   image,
-                  height: 130,
+                  height: 120,
                   width: double.infinity,
                   fit: BoxFit.cover,
                 ),

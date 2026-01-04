@@ -22,11 +22,14 @@ class _HomeState extends State<Home> {
     db = FirestoreODM(appSchema, firestore: FirebaseFirestore.instance);
   }
 
-  Future<void> addCharacters() async {
+  // --- MODIFICA QUESTE DUE FUNZIONI NELLA TUA HOME ---
+
+  Future<void> pushCharacters() async {
     setState(() => logs.insert(0, '👤 Caricamento personaggi...'));
     try {
       for (var char in hironoCharacters) {
-        await db.characters.insert(char);
+        // CAMBIA .insert CON .upsert
+        await db.characters.upsert(char);
         setState(() => logs.insert(0, '✅ OK: ${char.name}'));
       }
     } catch (e) {
@@ -34,11 +37,12 @@ class _HomeState extends State<Home> {
     }
   }
 
-  Future<void> addSeries() async {
+  Future<void> pushSeries() async {
     setState(() => logs.insert(0, '📦 Caricamento serie...'));
     try {
       for (var series in hironoSeriesList) {
-        await db.series.insert(series);
+        // CAMBIA .insert CON .upsert
+        await db.series.upsert(series);
         setState(() => logs.insert(0, '✅ OK: ${series.title}'));
       }
     } catch (e) {
@@ -60,12 +64,12 @@ class _HomeState extends State<Home> {
         children: [
           FloatingActionButton.extended(
             heroTag: 'char',
-            onPressed: addCharacters,
+            onPressed: pushCharacters,
             label: const Text('Personaggi'),
           ),
           FloatingActionButton.extended(
             heroTag: 'series',
-            onPressed: addSeries,
+            onPressed: pushSeries,
             label: const Text('Serie'),
             backgroundColor: Colors.orange,
           ),
