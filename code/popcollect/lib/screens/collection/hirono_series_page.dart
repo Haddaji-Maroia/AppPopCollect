@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dto/dto.dart';
-
 import '../../constants/fonts.dart';
 import '../../constants/sizes.dart';
 import '../../widgets/hirono/progress_card.dart';
@@ -122,13 +121,31 @@ class _HironoSeriesPageState extends State<HironoSeriesPage> {
                     image: character.image,
                     owned: character.isOwned,
                     price: character.price,
+
+                    // ADD
+                    onAdd: () {
+                      db.characters(character.id).patch(
+                            (p) => [p.isOwned(true)],
+                      );
+                    },
+
+                    // VIEW
                     onView: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (_) =>
-                              HironoCharacterPage(character: character),
+                          builder: (_) => HironoCharacterPage(character: character),
                         ),
+                      );
+                    },
+
+                    // DELETE
+                    onDelete: () {
+                      db.characters(character.id).patch(
+                            (p) => [
+                          p.isOwned(false),
+                          p.price(0),
+                        ],
                       );
                     },
                   );

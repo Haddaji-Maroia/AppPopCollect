@@ -5,6 +5,7 @@ import '../../widgets/other_one/character_info.dart';
 import '../../widgets/other_one/collection_button.dart';
 import '../../widgets/other_one/collection_details_form.dart';
 import 'package:dto/dto.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class HironoCharacterPage extends StatefulWidget {
   final HironoCharacter character;
@@ -62,9 +63,13 @@ class _HironoCharacterPageState extends State<HironoCharacterPage> {
           // AGGIUNTA ALLA COLLEZIONE
           CollectionButton(
             inCollection: isCharacterOwned,
-            onAdd: () {
-              final updatedCharacter = widget.character.copyWith(isOwned: true);
-              Navigator.pop(context, updatedCharacter);
+            onAdd: () async {
+              await FirebaseFirestore.instance
+                  .collection('characters')
+                  .doc(widget.character.id)
+                  .update({'isOwned': true});
+
+              if (mounted) Navigator.pop(context);
             },
             onRemove: () {},
           ),
@@ -78,12 +83,16 @@ class _HironoCharacterPageState extends State<HironoCharacterPage> {
                 minimumSize: const Size.fromHeight(50),
                 side: const BorderSide(color: Colors.red),
               ),
-              onPressed: () {
-                final updatedCharacter = widget.character.copyWith(
-                    isOwned: false,
-                    price: 0.0
-                );
-                Navigator.pop(context, updatedCharacter);
+              onPressed: () async {
+                await FirebaseFirestore.instance
+                    .collection('characters')
+                    .doc(widget.character.id)
+                    .update({
+                  'isOwned': false,
+                  'price': 0.0,
+                });
+
+                if (mounted) Navigator.pop(context);
               },
               icon: const Icon(Icons.delete, color: Colors.red),
               label: const Text(
@@ -99,9 +108,13 @@ class _HironoCharacterPageState extends State<HironoCharacterPage> {
             CollectionDetailsForm(
               initialPrice: widget.character.price,
               onCancel: () => setState(() => editMode = false),
-              onSave: (newPrice) {
-                final updatedCharacter = widget.character.copyWith(price: newPrice ?? 0.0);
-                Navigator.pop(context, updatedCharacter);
+              onSave: (newPrice) async {
+                await FirebaseFirestore.instance
+                    .collection('characters')
+                    .doc(widget.character.id)
+                    .update({'price': newPrice ?? 0.0});
+
+                if (mounted) Navigator.pop(context);
               },
             ),
         ],

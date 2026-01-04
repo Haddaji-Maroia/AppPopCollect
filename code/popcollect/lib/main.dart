@@ -2,7 +2,6 @@ import 'package:dto/dto.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:popcollect2/firebase_options.dart';
-import 'package:popcollect2/routes/app_routes.dart';
 import 'package:popcollect2/screens/collection/collection_page.dart';
 import 'package:popcollect2/screens/home_page.dart';
 import 'package:popcollect2/screens/login/login_page.dart';

@@ -138,8 +138,6 @@ class SeriesCharacterCard extends StatelessWidget {
                       ),
                     ],
                   ),
-
-
               ],
             ),
           ),
