@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../constants/fonts.dart';
 import '../../constants/sizes.dart';
 import '../login/login_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class OnboardingPage extends StatefulWidget {
   static const routeName = '/onboarding';
@@ -29,6 +29,15 @@ class _OnboardingPageState extends State<OnboardingPage> {
     {'name': 'LABUBU', 'icon': '👹'},
   ];
 
+
+  Future<void> _completeOnboarding() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('onboarding_done', true);
+    await prefs.setString('userName', _nameController.text);
+
+    print("Name saved: ${_nameController.text}");
+  }
+
   void _nextPage() {
     _pageController.nextPage(
       duration: const Duration(milliseconds: 300),
@@ -37,8 +46,11 @@ class _OnboardingPageState extends State<OnboardingPage> {
   }
 
   // Funzione per saltare direttamente al Login
-  void _skipToLogin() {
-    Navigator.pushReplacementNamed(context, LoginPage.routeName);
+  void _skipToLogin() async {
+    await _completeOnboarding();
+    if (mounted) {
+      Navigator.pushReplacementNamed(context, LoginPage.routeName);
+    }
   }
 
   @override
@@ -150,7 +162,6 @@ class _OnboardingPageState extends State<OnboardingPage> {
             isActive: _nameController.text.isNotEmpty,
           ),
           const SizedBox(height: 16),
-          // TASTO SKIP ANCHE QUI (CENTRALIZZATO)
           Center(
             child: TextButton(
               onPressed: _skipToLogin,
@@ -176,14 +187,16 @@ class _OnboardingPageState extends State<OnboardingPage> {
           const Text("Your personal tracker is set up.", style: TextStyle(color: Colors.grey)),
           const SizedBox(height: 60),
           _btnSemplice(
-            text: 'Create My Account 🚀', // Testo più chiaro
-            onPressed: () {
-              // Naviga verso il Sign Up passando magari il nome come argomento
-              Navigator.pushReplacementNamed(
-                context,
-                '/signup',
-                arguments: _nameController.text,
-              );
+            text: 'Create My Account 🚀',
+            onPressed: () async {
+              await _completeOnboarding();
+              if (mounted) {
+                Navigator.pushReplacementNamed(
+                  context,
+                  '/signup',
+                  arguments: _nameController.text,
+                );
+              }
             },
           ),
         ],
@@ -191,7 +204,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
     );
   }
 
-  // --- COMPONENTI UI ---
+  // UI
   Widget _buildDot(int index) {
     return Container(
       height: 6,
@@ -209,14 +222,13 @@ class _OnboardingPageState extends State<OnboardingPage> {
       width: double.infinity,
       height: 55,
       child: ElevatedButton(
-        onPressed: isActive ? onPressed : null, // Disabilita se non attivo
+        onPressed: isActive ? onPressed : null,
         style: ElevatedButton.styleFrom(
-          // Se attivo usa il tuo blu, se no un grigio chiaro
           backgroundColor: isActive ? const Color(0xFF587DBD) : Colors.grey.shade300,
           foregroundColor: Colors.white,
           elevation: 0,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(kRadiusL), // Usa la tua costante kRadiusL
+            borderRadius: BorderRadius.circular(kRadiusL),
           ),
         ),
         child: Text(

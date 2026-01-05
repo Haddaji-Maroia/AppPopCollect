@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:popcollect2/widgets/profile/badges_section.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../constants/sizes.dart';
 import '../constants/fonts.dart';
 import '../widgets/profile/profile_stats.dart';
@@ -50,9 +51,22 @@ class ProfilePage extends StatelessWidget {
               const SizedBox(height: kSpacingS),
 
               // USERNAME
-              const Text(
-                'sophia27',
-                style: kTitleText,
+              FutureBuilder<SharedPreferences>(
+                future: SharedPreferences.getInstance(),
+                builder: (context, snapshot) {
+                  // Mentre carica o se non trova nulla, usa un nome di default
+                  String nameToShow = "Collector";
+
+                  if (snapshot.hasData) {
+                    // Recupera il nome salvato, se è nullo usa "Collector"
+                    nameToShow = snapshot.data!.getString('userName') ?? "Collector";
+                  }
+
+                  return Text(
+                    nameToShow,
+                    style: kTitleText,
+                  );
+                },
               ),
 
               const SizedBox(height: kSpacingXS),
@@ -98,7 +112,13 @@ class ProfilePage extends StatelessWidget {
             TextButton(
               onPressed: () async {
                 await FirebaseAuth.instance.signOut();
-                if (context.mounted) Navigator.pop(context);
+                if (context.mounted) {
+                  Navigator.pop(context);
+                  Navigator.of(context).pushNamedAndRemoveUntil(
+                    '/login',
+                        (route) => false,
+                  );
+                }
               },
               child: const Text("Logout", style: TextStyle(color: Colors.red)),
             ),
