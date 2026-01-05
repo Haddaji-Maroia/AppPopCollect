@@ -36,7 +36,7 @@ class RecentActivitySection extends StatelessWidget {
             subtitle: data['description'] ?? '',
             date: _formatDate(data['date']),
           );
-        }).toList(),
+        }),
       ],
     );
   }

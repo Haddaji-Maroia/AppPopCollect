@@ -151,7 +151,7 @@ class CharactersAboutPage extends StatelessWidget {
       children: [
         _infoItem(Icons.format_list_numbered, "${col.total}", "Total"),
         _infoItem(Icons.auto_awesome, "${col.secret}", "Secret"),
-        _infoItem(Icons.euro, "${col.price.toStringAsFixed(2)}", "Price"),
+        _infoItem(Icons.euro, "${col.price}", "Price"),
       ],
     );
   }

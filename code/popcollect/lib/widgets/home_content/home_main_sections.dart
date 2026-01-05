@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../constants/sizes.dart';
 import '../home/whats_new_section.dart';
 import '../home/charaters_section.dart';
-import '../home/artists_section.dart';
+
 
 class HomeMainSections extends StatelessWidget {
   const HomeMainSections({super.key});

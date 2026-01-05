@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../../constants/fonts.dart';
-import '../../constants/sizes.dart';
 
 
 class HomeHeader extends StatelessWidget {

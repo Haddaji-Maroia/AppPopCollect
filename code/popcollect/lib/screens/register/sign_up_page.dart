@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../../constants/sizes.dart';
 import '../../services/auth_service.dart';
 import '../../widgets/auth/auth_header.dart';
-import '../../widgets/auth/or_divider.dart';
 import '../../widgets/auth/social_login.dart';
 import '../../widgets/auth/signup_form.dart';
 import '../../widgets/auth/auth_action_buttons.dart';

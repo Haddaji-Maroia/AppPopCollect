@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../constants/sizes.dart';
 import '../../constants/fonts.dart';
-import '../../constants/colors.dart';
+
 
 class ProfileStats extends StatelessWidget {
   final int figures;
@@ -29,7 +29,7 @@ class ProfileStats extends StatelessWidget {
           borderRadius: BorderRadius.circular(16), // Più arrotondato
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.04),
+              color: Colors.black.withValues(alpha: 0.04),
               blurRadius: 10,
               offset: const Offset(0, 4),
             ),
@@ -42,7 +42,7 @@ class ProfileStats extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: accentColor.withOpacity(0.1),
+                color: accentColor.withValues(alpha: 0.1),
                 shape: BoxShape.circle,
               ),
               child: Icon(icon, color: accentColor, size: 20),

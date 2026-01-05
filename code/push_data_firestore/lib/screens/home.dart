@@ -26,12 +26,12 @@ class _HomeState extends State<Home> {
 
     FirebaseAuth.instance.signInAnonymously().then((userCredential) {
       print("Logged as: ${userCredential.user?.uid}");
-      setState(() => logs.insert(0, '👤 Authenticated as: ${userCredential.user?.uid}'));
+      setState(() => logs.insert(0, 'Authenticated as: ${userCredential.user?.uid}'));
     });
   }
 
   Future<void> pushCharacters() async {
-    setState(() => logs.insert(0, '👤 Loading characters...'));
+    setState(() => logs.insert(0, 'Loading characters...'));
     try {
       for (var char in hironoCharacters) {
         await db.characters.upsert(char);
@@ -43,7 +43,7 @@ class _HomeState extends State<Home> {
   }
 
   Future<void> pushSeries() async {
-    setState(() => logs.insert(0, '📦 Loading series...'));
+    setState(() => logs.insert(0, 'Loading series...'));
     try {
       for (var series in hironoSeriesList) {
         await db.series.upsert(series);
@@ -55,7 +55,7 @@ class _HomeState extends State<Home> {
   }
 
   Future<void> pushCollections() async {
-    setState(() => logs.insert(0, '📂 Loading collections...'));
+    setState(() => logs.insert(0, 'Loading collections...'));
     try {
       for (var col in allCollectionsList) {
         await db.collections.upsert(col);
@@ -68,7 +68,7 @@ class _HomeState extends State<Home> {
   }
 
   Future<void> pushFullSetup() async {
-    setState(() => logs.insert(0, '🚀 Starting full database setup...'));
+    setState(() => logs.insert(0, 'Starting full database setup...'));
     try {
       await DatabaseSetup.setupFullDatabase();
       setState(() => logs.insert(0, '✅ DATABASE READY!'));

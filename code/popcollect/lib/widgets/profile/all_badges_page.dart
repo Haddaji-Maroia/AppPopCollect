@@ -55,7 +55,7 @@ class AllBadgesPage extends StatelessWidget {
                         color: isUnlocked ? Colors.white : Colors.grey[200],
                         boxShadow: isUnlocked ? [
                           BoxShadow(
-                            color: _getBadgeColor(id).withOpacity(0.2),
+                            color: _getBadgeColor(id).withValues(alpha: 0.2),
                             blurRadius: 8,
                             offset: const Offset(0, 4),
                           )

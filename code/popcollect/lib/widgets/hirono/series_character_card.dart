@@ -128,7 +128,7 @@ class SeriesCharacterCard extends StatelessWidget {
                       const SizedBox(width: kSpacingXS),
                       Container(
                         decoration: BoxDecoration(
-                          color: Colors.red.withOpacity(0.1),
+                          color: Colors.red,
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: IconButton(

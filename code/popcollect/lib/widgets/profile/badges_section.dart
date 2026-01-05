@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../constants/fonts.dart';
 import '../../constants/sizes.dart';
 import 'all_badges_page.dart';
-import 'badge_card.dart';
+
 
 class BadgesSection extends StatelessWidget {
   final List<QueryDocumentSnapshot> docs;
@@ -61,7 +61,7 @@ class BadgesSection extends StatelessWidget {
                         color: isUnlocked ? Colors.white : Colors.grey[200],
                         boxShadow: isUnlocked ? [
                           BoxShadow(
-                            color: _getBadgeColor(data['id']).withOpacity(0.3),
+                            color: _getBadgeColor(data['id']).withValues(alpha: 0.3),
                             blurRadius: 10,
                             spreadRadius: 2,
                             offset: const Offset(0, 4),
