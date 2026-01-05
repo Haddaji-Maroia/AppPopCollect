@@ -19,7 +19,6 @@ class HomeMainSections extends StatelessWidget {
           SizedBox(height: kSpacingXL),
           CharactersSection(),
           SizedBox(height: kSpacingXL),
-          ArtistsSection(),
         ],
       ),
     );
