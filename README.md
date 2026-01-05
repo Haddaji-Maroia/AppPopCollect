@@ -124,7 +124,6 @@ Elle souhaite :
 | Séries dynamiques Firestore | ✅ Terminé |
 | Progression visuelle | ✅ Terminé |
 | Synchronisation temps réel | ✅ Terminé |
-| Cache local (offline) | ✅ Terminé |
 
 ---
 
