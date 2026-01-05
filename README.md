@@ -1,4 +1,4 @@
-<img width="346" height="741" alt="Screenshot 2026-01-05 alle 21 00 41" src="https://github.com/user-attachments/assets/f8ec6b0f-752c-4c9a-ba0b-21e00b6b770a" /># 🎁 PopCollect — Gestionnaire de collections Blind-Box
+# 🎁 PopCollect — Gestionnaire de collections Blind-Box
 
 ## Projet d’examen  
 **Développement d’applications mobiles (DAM)**  
