@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../constants/fonts.dart';
 import '../../constants/sizes.dart';
 import '../../widgets/hirono/progress_card.dart';
+import '../../widgets/common/placeholder_card.dart';
 
 class HironoSimpleSeriesPage extends StatelessWidget {
   final String title;
@@ -26,55 +27,29 @@ class HironoSimpleSeriesPage extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.all(kPagePadding),
         children: [
-          // IMAGE
           Hero(
             tag: title,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(kRadiusM),
               child: Image.asset(
                 image,
-                height: 180,
+                height: kHeroImageHeight,
                 width: double.infinity,
                 fit: BoxFit.cover,
               ),
             ),
           ),
-
           const SizedBox(height: kSpacingM),
-
-          // PROGRESS CARD
           const ProgressCard(
             title: 'Collection Progress',
-            owned: 0,
-            total: 12,
+            owned: kInitialOwnedValue,
+            total: kHironoSeriesDefaultTotal,
           ),
-
           const SizedBox(height: kSpacingL),
 
-          // This is a placeholder for the future grid
-          Container(
-            padding: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              color: Colors.grey.shade100,
-              borderRadius: BorderRadius.circular(kRadiusM),
-              border: Border.all(color: Colors.grey.shade300),
-            ),
-            child: Column(
-              children: [
-                const Icon(Icons.inventory_2_outlined, size: 40, color: Colors.grey),
-                const SizedBox(height: kSpacingS),
-                Text(
-                  "Characters coming soon...",
-                  style: kBody.copyWith(color: Colors.grey.shade600),
-                ),
-                const SizedBox(height: kSpacingXS),
-                Text(
-                  "We are updating the database for this collection.",
-                  textAlign: TextAlign.center,
-                  style: kCaptionText,
-                ),
-              ],
-            ),
+          const PlaceholderCard(
+            title: "Characters coming soon...",
+            subtitle: "We are updating the database for this collection.",
           ),
         ],
       ),

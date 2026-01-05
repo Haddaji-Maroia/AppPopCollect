@@ -1,21 +1,17 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:popcollect2/screens/home_page.dart';
-import 'package:popcollect2/screens/register/sign_up_page.dart';
-import 'package:popcollect2/services/auth_service.dart';
-import 'package:popcollect2/widgets/auth/auth_header.dart';
-import 'package:popcollect2/widgets/auth/or_divider.dart';
-import 'package:popcollect2/widgets/form/password_input.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import '../../constants/fonts.dart';
 import '../../constants/sizes.dart';
+import '../../services/auth_service.dart';
+import '../../widgets/auth/auth_header.dart';
 import '../../widgets/auth/social_login.dart';
-import '../../widgets/form/email_input.dart';
+import '../../widgets/auth/login_form.dart';
+import '../../widgets/auth/auth_footer.dart';
+import '../home_page.dart';
+import '../register/sign_up_page.dart';
 import '../onboarding/onboarding_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
-
   static const String routeName = '/login';
 
   @override
@@ -23,141 +19,58 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final _loginFormKey = GlobalKey<FormState>();
-
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
-
-  @override
-  void initState() {
-    super.initState();
-    _checkFirstTime();
-  }
-
-  Future<void> _checkFirstTime() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool onboardingDone = prefs.getBool('onboarding_done') ?? false;
-
-    if (!onboardingDone) {
-      if (!mounted) return;
-      Navigator.pushReplacementNamed(context, OnboardingPage.routeName);
-    }
-  }
+  final _formKey = GlobalKey<FormState>();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
 
   @override
   void dispose() {
-    emailController.dispose();
-    passwordController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
     super.dispose();
   }
 
   Future<void> _handleLogin() async {
-    if (!_loginFormKey.currentState!.validate()) return;
-
+    if (!_formKey.currentState!.validate()) return;
     try {
       await authServices.value.signIn(
-        email: emailController.text.trim(),
-        password: passwordController.text.trim(),
+        email: _emailController.text.trim(),
+        password: _passwordController.text.trim(),
       );
-
-      if (!mounted) return;
-
-      Navigator.pushReplacementNamed(
-        context,
-        HomePage.routeName,
-      );
+      if (mounted) Navigator.pushReplacementNamed(context, HomePage.routeName);
     } on FirebaseAuthException catch (e) {
-      if (!mounted) return;
-
-      String message;
-      switch (e.code) {
-        case 'user-not-found':
-          message = 'No user found for this email';
-          break;
-        case 'wrong-password':
-          message = 'Wrong password';
-          break;
-        default:
-          message = 'Login error';
-      }
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(message)),
-      );
+      _showError(e.code);
     }
+  }
+
+  void _showError(String code) {
+    if (!mounted) return;
+    final msg = code == 'user-not-found' ? 'User not found' : 'Login error';
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg)));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Padding(
+        child: SingleChildScrollView(
           padding: const EdgeInsets.all(kPagePadding),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              AuthHeader(title: 'Login'),
+              const AuthHeader(title: 'Login'),
+              const SizedBox(height: kSpacingXL),
 
-              SingleChildScrollView(
-                child: Form(
-                  key: _loginFormKey,
-                  child: Column(
-                    children: [
-                      EmailInput(controller: emailController),
-                      const SizedBox(height: kSpacingM),
-                      PasswordInput(controller: passwordController),
-                      const SizedBox(height: kSpacingXL),
+              // form
+              LoginForm(
+                formKey: _formKey,
+                emailController: _emailController,
+                passwordController: _passwordController,
+                onLoginPressed: _handleLogin,
+              ),
 
-
-                      SizedBox(
-                        width: double.infinity,
-                        height: kButtonHeight,
-                        child: ElevatedButton(
-                          onPressed: _handleLogin,
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xFF587DBD),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(kRadiusL),
-                            ),
-                          ),
-                          child: const Text(
-                            'Login',
-                            style: kButtonText,
-                          ),
-                        ),
-                      ),
-
-                      const OrDivider(),
-
-                      SizedBox(
-                        width: double.infinity,
-                        height: kButtonHeight,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.pushNamed(context, SignUpPage.routeName);
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xFF587DBD),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(kRadiusL),
-                            ),
-                          ),
-                          child: const Text(
-                            'Sign up',
-                            style: kButtonText,
-                          ),
-                        ),
-                      ),
-
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pushNamed(context, OnboardingPage.routeName);
-                        },
-                        child: const Text("First time? View Tutorial"),
-                      ),
-                    ],
-                  ),
-                ),
+              AuthFooter(
+                onSignUp: () => Navigator.pushNamed(context, SignUpPage.routeName),
+                onTutorial: () => Navigator.pushNamed(context, OnboardingPage.routeName),
               ),
 
               const SizedBox(height: kSpacingM),

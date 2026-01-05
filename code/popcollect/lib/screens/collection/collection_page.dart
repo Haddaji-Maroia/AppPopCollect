@@ -12,20 +12,35 @@ class CollectionPage extends StatelessWidget {
 
   const CollectionPage({super.key});
 
+  double _calculateProgress(AppCollection col, List<HironoCharacter> allCharacters) {
+    int owned;
+    int total;
+
+    if (col.id == 'hirono') {
+      owned = allCharacters.where((c) => c.isOwned).length;
+      total = kHironoTotalItems;
+    } else {
+      owned = kInitialOwnedValue;
+      total = col.total;
+    }
+
+    return total > 0 ? owned / total : 0.0;
+  }
+
   @override
   Widget build(BuildContext context) {
     final db = FirestoreODM(appSchema, firestore: FirebaseFirestore.instance);
 
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, color: Colors.black),
-          onPressed: () {
-            Navigator.of(context).popUntil((route) => route.isFirst);
-          },
+          icon: const Icon(Icons.arrow_back_ios_new),
+          onPressed: () => Navigator.of(context).popUntil((route) => route.isFirst),
         ),
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.white,
         elevation: 0,
+        foregroundColor: Colors.black,
       ),
       body: SafeArea(
         child: StreamBuilder<List<AppCollection>>(
@@ -39,24 +54,12 @@ class CollectionPage extends StatelessWidget {
                 if (!charSnapshot.hasData) return const Center(child: CircularProgressIndicator());
 
                 final allCharacters = charSnapshot.data!;
-                final collections = List<AppCollection>.from(colSnapshot.data!); // Copia la lista per ordinarla
+                final collections = List<AppCollection>.from(colSnapshot.data!);
 
-                collections.sort((a, b) {
-                  double getProgress(AppCollection col) {
-                    int owned;
-                    int total;
-                    if (col.id == 'hirono') {
-                      owned = allCharacters.where((c) => c.isOwned).length;
-                      total = 108;
-                    } else {
-                      owned = 0;
-                      total = col.total;
-                    }
-                    return total > 0 ? owned / total : 0.0;
-                  }
 
-                  return getProgress(b).compareTo(getProgress(a));
-                });
+                collections.sort((a, b) =>
+                    _calculateProgress(b, allCharacters).compareTo(_calculateProgress(a, allCharacters))
+                );
 
                 final int hironoOwned = allCharacters.where((c) => c.isOwned).length;
 
@@ -79,28 +82,15 @@ class CollectionPage extends StatelessWidget {
                         physics: const NeverScrollableScrollPhysics(),
                         padding: EdgeInsets.zero,
                         itemCount: collections.length,
-                        separatorBuilder: (_, __) => const SizedBox(height: 8),
+                        separatorBuilder: (_, __) => const SizedBox(height: kSpacingS),
                         itemBuilder: (context, index) {
                           final col = collections[index];
 
-                          int currentOwned = 0;
-                          int currentTotal = col.total;
-
-                          if (col.id == 'hirono') {
-                            currentOwned = hironoOwned;
-                            currentTotal = 108;
-                          }
+                          int currentOwned = (col.id == 'hirono') ? hironoOwned : kInitialOwnedValue;
+                          int currentTotal = (col.id == 'hirono') ? kHironoTotalItems : col.total;
 
                           return GestureDetector(
-                            onTap: () {
-                              if (col.id == 'hirono') {
-                                Navigator.push(context, MaterialPageRoute(builder: (_) => const HironoPage()));
-                              } else {
-                                Navigator.push(context, MaterialPageRoute(
-                                  builder: (_) => CollectionDetailPage(collection: col),
-                                ));
-                              }
-                            },
+                            onTap: () => _navigateToDetail(context, col),
                             child: CollectionCard(
                               name: col.name,
                               image: col.image,
@@ -121,5 +111,15 @@ class CollectionPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _navigateToDetail(BuildContext context, AppCollection col) {
+    if (col.id == 'hirono') {
+      Navigator.push(context, MaterialPageRoute(builder: (_) => const HironoPage()));
+    } else {
+      Navigator.push(context, MaterialPageRoute(
+        builder: (_) => CollectionDetailPage(collection: col),
+      ));
+    }
   }
 }

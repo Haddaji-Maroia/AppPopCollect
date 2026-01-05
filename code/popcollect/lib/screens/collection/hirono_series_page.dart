@@ -5,7 +5,9 @@ import '../../constants/fonts.dart';
 import '../../constants/sizes.dart';
 import '../../widgets/hirono/progress_card.dart';
 import '../../widgets/hirono/series_character_card.dart';
+import '../../widgets/common/series_filter_chips.dart';
 import 'hirono_character_page.dart';
+
 
 enum SeriesFilter { all, owned, missing }
 
@@ -24,9 +26,19 @@ class _HironoSeriesPageState extends State<HironoSeriesPage> {
     firestore: FirebaseFirestore.instance,
   );
 
+  void _toggleOwnership(String id, bool owned) {
+    db.characters(id).patch(
+          (p) => [
+        p.isOwned(owned),
+        if (!owned) p.price(kInitialOwnedValue.toDouble()),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text('The Other One', style: kSectionTitle),
         backgroundColor: Colors.white,
@@ -36,100 +48,72 @@ class _HironoSeriesPageState extends State<HironoSeriesPage> {
       body: StreamBuilder<List<HironoCharacter>>(
         stream: db.characters.stream,
         builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            return const Center(child: CircularProgressIndicator());
-          }
+          if (!snapshot.hasData) return const Center(child: CircularProgressIndicator());
 
           final allCharacters = snapshot.data!;
+          final ownedCount = allCharacters.where((c) => c.isOwned).length;
 
-          // FILTRI
           final visibleCharacters = switch (selectedFilter) {
-            SeriesFilter.owned =>
-                allCharacters.where((c) => c.isOwned).toList(),
-            SeriesFilter.missing =>
-                allCharacters.where((c) => !c.isOwned).toList(),
-            _ => allCharacters,
+            SeriesFilter.owned => allCharacters.where((c) => c.isOwned).toList(),
+            SeriesFilter.missing => allCharacters.where((c) => !c.isOwned).toList(),
+            SeriesFilter.all => allCharacters,
           };
-
-          final ownedCount =
-              allCharacters.where((c) => c.isOwned).length;
 
           return ListView(
             padding: const EdgeInsets.all(kPagePadding),
             children: [
-              // IMAGE
               ClipRRect(
                 borderRadius: BorderRadius.circular(kRadiusM),
                 child: Image.asset(
                   'assets/images/hirono_other_one/otherOne.jpeg',
-                  height: 180,
+                  height: kHeroImageHeight,
                   width: double.infinity,
                   fit: BoxFit.cover,
                 ),
               ),
-
               const SizedBox(height: kSpacingM),
-
               ProgressCard(
                 title: 'Collection Progress',
                 owned: ownedCount,
                 total: allCharacters.length,
               ),
-
               const SizedBox(height: kSpacingL),
 
-              // FILTERS
-              Row(
-                children: [
-                  _FilterChip(
-                    label: 'All (${allCharacters.length})',
-                    selected: selectedFilter == SeriesFilter.all,
-                    onTap: () =>
-                        setState(() => selectedFilter = SeriesFilter.all),
-                  ),
-                  const SizedBox(width: kSpacingXS),
-                  _FilterChip(
-                    label: 'Owned ($ownedCount)',
-                    selected: selectedFilter == SeriesFilter.owned,
-                    onTap: () =>
-                        setState(() => selectedFilter = SeriesFilter.owned),
-                  ),
-                  const SizedBox(width: kSpacingXS),
-                  _FilterChip(
-                    label:
-                    'Missing (${allCharacters.length - ownedCount})',
-                    selected: selectedFilter == SeriesFilter.missing,
-                    onTap: () =>
-                        setState(() => selectedFilter = SeriesFilter.missing),
-                  ),
-                ],
+
+              //filtri
+              CustomFilterChips<SeriesFilter>(
+                items: SeriesFilter.values,
+                selectedItem: selectedFilter,
+                onSelected: (filter) => setState(() => selectedFilter = filter),
+                labelBuilder: (filter) {
+                  switch (filter) {
+                    case SeriesFilter.all:
+                      return 'All (${allCharacters.length})';
+                    case SeriesFilter.owned:
+                      return 'Owned ($ownedCount)';
+                    case SeriesFilter.missing:
+                      return 'Missing (${allCharacters.length - ownedCount})';
+                  }
+                },
               ),
 
               const SizedBox(height: kSpacingM),
 
-              // GRID
               GridView.count(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 crossAxisCount: 2,
                 mainAxisSpacing: kSpacingS,
                 crossAxisSpacing: kSpacingS,
-                childAspectRatio: 0.68,
+                childAspectRatio: kCardAspectRatio,
                 children: visibleCharacters.map((character) {
                   return SeriesCharacterCard(
                     name: character.name,
                     image: character.image,
                     owned: character.isOwned,
                     price: character.price,
-
-                    // ADD
-                    onAdd: () {
-                      db.characters(character.id).patch(
-                            (p) => [p.isOwned(true)],
-                      );
-                    },
-
-                    // VIEW
+                    onAdd: () => _toggleOwnership(character.id, true),
+                    onDelete: () => _toggleOwnership(character.id, false),
                     onView: () {
                       Navigator.push(
                         context,
@@ -138,56 +122,12 @@ class _HironoSeriesPageState extends State<HironoSeriesPage> {
                         ),
                       );
                     },
-
-                    // DELETE
-                    onDelete: () {
-                      db.characters(character.id).patch(
-                            (p) => [
-                          p.isOwned(false),
-                          p.price(0),
-                        ],
-                      );
-                    },
                   );
                 }).toList(),
               ),
             ],
           );
         },
-      ),
-    );
-  }
-}
-
-class _FilterChip extends StatelessWidget {
-  final String label;
-  final bool selected;
-  final VoidCallback onTap;
-
-  const _FilterChip({
-    required this.label,
-    required this.selected,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-        decoration: BoxDecoration(
-          color: selected ? Colors.black : Colors.white,
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: Colors.grey.shade300),
-        ),
-        child: Text(
-          label,
-          style: TextStyle(
-            color: selected ? Colors.white : Colors.black,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
       ),
     );
   }

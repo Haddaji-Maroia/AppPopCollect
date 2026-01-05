@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../constants/sizes.dart';
+import '../../constants/fonts.dart';
 
 class CollectionFilters extends StatelessWidget {
   final String selected;
@@ -19,13 +21,13 @@ class CollectionFilters extends StatelessWidget {
           selected: selected == 'All',
           onTap: () => onChanged('All'),
         ),
-        const SizedBox(width: 8),
+        const SizedBox(width: kSpacingS), // Sostituito 8
         _FilterChip(
           label: 'Owned',
           selected: selected == 'Owned',
           onTap: () => onChanged('Owned'),
         ),
-        const SizedBox(width: 8),
+        const SizedBox(width: kSpacingS), // Sostituito 8
         _FilterChip(
           label: 'Missing',
           selected: selected == 'Missing',
@@ -52,17 +54,22 @@ class _FilterChip extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+        // Sostituiti 14 e 8 con costanti di padding
+        padding: const EdgeInsets.symmetric(
+            horizontal: kPaddingS,
+            vertical: kPaddingXS
+        ),
         decoration: BoxDecoration(
           color: selected ? Colors.black : Colors.white,
-          borderRadius: BorderRadius.circular(20),
+          // Sostituito 20 con kRadiusL o kBorderRadiusButton
+          borderRadius: BorderRadius.circular(kBorderRadiusButton),
           border: Border.all(color: Colors.grey.shade300),
         ),
         child: Text(
           label,
-          style: TextStyle(
+          // Usato kBodyBoldText o kBodyText con copyWith per il colore
+          style: kBodyBoldText.copyWith(
             color: selected ? Colors.white : Colors.black,
-            fontWeight: FontWeight.w500,
           ),
         ),
       ),

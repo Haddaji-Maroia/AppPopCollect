@@ -1,16 +1,13 @@
  import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 
-//state management so we can call AuthService everytime we want
 ValueNotifier<AuthService> authServices = ValueNotifier(AuthService());
 
 class AuthService {
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
-  //we have access to the current user at any point
   User? get currentUser => firebaseAuth.currentUser;
 
-  //return the information if the user is connected or not
   Stream<User?> get authStateChanges => firebaseAuth.authStateChanges();
 
   //Create a Sign in
@@ -35,8 +32,4 @@ class AuthService {
   Future<void> signOut() async {
     await firebaseAuth.signOut();
   }
-
-
-
-
 }

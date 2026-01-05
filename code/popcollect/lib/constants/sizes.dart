@@ -191,9 +191,31 @@ const double kIconS = 18.0;
 const double kIconM = 22.0;
 const double kIconL = 26.0;
 
+// --- DATABASE & LOGIC ---
+const int kHironoTotalItems = 108;
+const int kInitialOwnedValue = 0;
 
+// --- IMAGE SIZES ---
+const double kHeroImageHeight = 180.0;
+const double kCardAspectRatio = 0.68;
 
+const double kFontSizeSmall = 13.0;
+const double kEmptyStateIconSize = 80.0;
+const int kHironoSeriesDefaultTotal = 12;
 
+// --- ONBOARDING SPECIFIC ---
+const double kLogoHeight = 60.0;
+const double kDotSize = 6.0;
+const double kDotWidthActive = 20.0;
+const double kOnboardingIconSize = 60.0;
+const double kCollectionIconSize = 35.0;
+const double kGridSpacing = 12.0;
+const int kOnboardingTotalSteps = 3;
+
+const double kHomeHeaderHeight = 340.0;
+const double kOnboardingLogoHeight = 50.0;
+
+const int kGlobalTotalCharacters = 652;
 
 
 

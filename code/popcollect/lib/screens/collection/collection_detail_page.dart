@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:dto/dto.dart';
-
 import '../../constants/fonts.dart';
 import '../../constants/sizes.dart';
-
 
 class CollectionDetailPage extends StatelessWidget {
   final AppCollection collection;
@@ -15,7 +13,7 @@ class CollectionDetailPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text(collection.name, style: kTitleText.copyWith(fontSize: 18)),
+        title: Text(collection.name, style: kCardTitleText),
         centerTitle: true,
         elevation: 0,
         backgroundColor: Colors.white,
@@ -27,14 +25,14 @@ class CollectionDetailPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              padding: const EdgeInsets.all(30),
-              decoration: BoxDecoration(
-                color: const Color(0xFFF5F7FA),
+              padding: const EdgeInsets.all(kPaddingXL),
+              decoration: const BoxDecoration(
+                color: Color(0xFFF5F7FA),
                 shape: BoxShape.circle,
               ),
               child: const Text(
                 '📦',
-                style: TextStyle(fontSize: 60),
+                style: TextStyle(fontSize: kProgressIconSize),
               ),
             ),
 
@@ -44,7 +42,7 @@ class CollectionDetailPage extends StatelessWidget {
             Text(
               'Working on ${collection.name}...',
               textAlign: TextAlign.center,
-              style: kTitleText.copyWith(fontSize: 22),
+              style: kSectionTitleText,
             ),
 
             const SizedBox(height: kSpacingS),
@@ -53,14 +51,14 @@ class CollectionDetailPage extends StatelessWidget {
             Text(
               "We are currently organizing the shelf for your ${collection.name} figures. Stay tuned for the next update!",
               textAlign: TextAlign.center,
-              style: kCaptionText.copyWith(fontSize: 15),
+              style: kBodyText.copyWith(color: Colors.grey),
             ),
 
             const SizedBox(height: kSpacingXL),
 
             // Button go back
             SizedBox(
-              width: 200,
+              width: kArtistCardWidth + kPaddingXL,
               child: ElevatedButton(
                 onPressed: () => Navigator.pop(context),
                 style: ElevatedButton.styleFrom(
@@ -69,9 +67,9 @@ class CollectionDetailPage extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(kRadiusL),
                   ),
-                  padding: const EdgeInsets.symmetric(vertical: 15),
+                  padding: const EdgeInsets.symmetric(vertical: kPaddingM),
                 ),
-                child: const Text("Go Back"),
+                child: const Text("Go Back", style: kButtonText),
               ),
             ),
           ],

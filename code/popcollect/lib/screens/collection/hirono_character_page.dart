@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
 import '../../constants/sizes.dart';
+import '../../constants/fonts.dart';
 import '../../widgets/other_one/character_header_image.dart';
 import '../../widgets/other_one/character_info.dart';
 import '../../widgets/other_one/collection_button.dart';
 import '../../widgets/other_one/collection_details_form.dart';
+import '../../widgets/other_one/remove_character_button.dart';
 import 'package:dto/dto.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class HironoCharacterPage extends StatefulWidget {
   final HironoCharacter character;
-
-  const HironoCharacterPage({
-    super.key,
-    required this.character,
-  });
+  const HironoCharacterPage({super.key, required this.character});
 
   @override
   State<HironoCharacterPage> createState() => _HironoCharacterPageState();
@@ -22,10 +20,11 @@ class HironoCharacterPage extends StatefulWidget {
 class _HironoCharacterPageState extends State<HironoCharacterPage> {
   bool editMode = false;
 
-  Future<void> _handleCameraTap() async {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Camera feature currently disabled.')),
-    );
+  Future<void> _updateCharacter(Map<String, dynamic> data) async {
+    await FirebaseFirestore.instance
+        .collection('characters')
+        .doc(widget.character.id)
+        .update(data);
   }
 
   @override
@@ -35,15 +34,13 @@ class _HironoCharacterPageState extends State<HironoCharacterPage> {
     return Scaffold(
       appBar: AppBar(
         leading: const BackButton(),
-        title: Text(widget.character.name),
+        title: Text(widget.character.name, style: kCardTitleText),
         actions: [
           if (isCharacterOwned)
             TextButton.icon(
-              onPressed: () {
-                setState(() => editMode = !editMode);
-              },
-              icon: const Icon(Icons.edit, size: 18),
-              label: Text(editMode ? 'Done' : 'Edit'),
+              onPressed: () => setState(() => editMode = !editMode),
+              icon: const Icon(Icons.edit, size: kIconS),
+              label: Text(editMode ? 'Done' : 'Edit', style: kLinkText),
             ),
         ],
       ),
@@ -53,78 +50,40 @@ class _HironoCharacterPageState extends State<HironoCharacterPage> {
           CharacterHeaderImage(
             image: widget.character.image,
             editMode: editMode,
-            onCameraTap: _handleCameraTap,
-            onRemove: () async {
-              await FirebaseFirestore.instance
-                  .collection('characters')
-                  .doc(widget.character.id)
-                  .update({'image': ''});
-
-              if (mounted) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Photo removed')),
-                );
-              }
-            },
+            onCameraTap: () {},
+            onRemove: () => _updateCharacter({'image': ''}),
           ),
-
           const SizedBox(height: kSpacingL),
-
           CharacterInfo(character: widget.character),
-
           const SizedBox(height: kSpacingL),
-
           CollectionButton(
             inCollection: isCharacterOwned,
             onAdd: () async {
-              await FirebaseFirestore.instance
-                  .collection('characters')
-                  .doc(widget.character.id)
-                  .update({'isOwned': true});
-
+              await _updateCharacter({'isOwned': true});
               if (mounted) Navigator.pop(context);
             },
             onRemove: () {},
           ),
-
           const SizedBox(height: kSpacingS),
-
           if (isCharacterOwned)
-            OutlinedButton.icon(
-              style: OutlinedButton.styleFrom(
-                minimumSize: const Size.fromHeight(50),
-                side: const BorderSide(color: Colors.red),
-              ),
+            RemoveCharacterButton(
               onPressed: () async {
-                await FirebaseFirestore.instance
-                    .collection('characters')
-                    .doc(widget.character.id)
-                    .update({
+                await _updateCharacter({
                   'isOwned': false,
-                  'price': 0.0,
+                  'price': kInitialOwnedValue.toDouble(),
                 });
-
                 if (mounted) Navigator.pop(context);
               },
-              icon: const Icon(Icons.delete, color: Colors.red),
-              label: const Text(
-                'Remove from Collection',
-                style: TextStyle(color: Colors.red),
-              ),
             ),
-
           const SizedBox(height: kSpacingL),
-
           if (isCharacterOwned)
             CollectionDetailsForm(
               initialPrice: widget.character.price,
               onCancel: () => setState(() => editMode = false),
               onSave: (newPrice) async {
-                await FirebaseFirestore.instance
-                    .collection('characters')
-                    .doc(widget.character.id)
-                    .update({'price': newPrice ?? 0.0});
-
+                await _updateCharacter({
+                  'price': newPrice ?? kInitialOwnedValue.toDouble()
+                });
                 if (mounted) Navigator.pop(context);
               },
             ),

@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:popcollect2/screens/home_content.dart';
-import 'package:popcollect2/screens/profile_page.dart';
-import 'package:popcollect2/screens/wishlist_page.dart';
-import 'collection/collection_page.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'home_content.dart';
+import 'profile_page.dart';
+import 'wishlist_page.dart';
+import 'collection/collection_page.dart';
 
 import '../constants/sizes.dart';
 import '../constants/fonts.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
-
   static const String routeName = '/homePage';
 
   @override
@@ -18,83 +17,84 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  int _currentPage = 0;
 
-  final List<Widget> pages = [
-    const HomeContent(),
-    const CollectionPage(),
-    const WishlistPage(),
-    const ProfilePage(),
+  final List<Widget> _pages = const [
+    HomeContent(),
+    CollectionPage(),
+    WishlistPage(),
+    ProfilePage(),
   ];
 
-  int currentPage = 0;
+  @override
+  Widget build(BuildContext context) {
+    const Color kSelectedColor = Color(0xFFF8BD00);
+    const Color kUnselectedColor = Colors.black;
 
-  NavigationDestination _navItem({
-    required String label,
-    required String iconPath,
-  }) {
-    return NavigationDestination(
-      label: label,
-      icon: SvgPicture.asset(
-        iconPath,
-        width: kNavIconSize,
-        colorFilter: const ColorFilter.mode(
-          Colors.black,
-          BlendMode.srcIn,
-        ),
-      ),
-      selectedIcon: SvgPicture.asset(
-        iconPath,
-        width: kNavIconSize,
-        colorFilter: const ColorFilter.mode(
-          Color(0xFFF8BD00),
-          BlendMode.srcIn,
-        ),
+    return Scaffold(
+      body: _pages[_currentPage],
+      bottomNavigationBar: NavigationBar(
+        backgroundColor: Colors.white,
+        elevation: 10,
+        indicatorColor: Colors.transparent,
+        height: kBottomNavHeight,
+        selectedIndex: _currentPage,
+        onDestinationSelected: (index) => setState(() => _currentPage = index),
+        labelTextStyle: WidgetStateProperty.resolveWith((states) {
+          return states.contains(WidgetState.selected)
+              ? kNavLabelSelected
+              : kNavLabelUnselected;
+        }),
+        destinations: [
+          _navItem(
+            label: 'Home',
+            icon: 'assets/icons/home-icon.svg',
+            selectedColor: kSelectedColor,
+            unselectedColor: kUnselectedColor,
+            isSelected: _currentPage == 0,
+          ),
+          _navItem(
+            label: 'Collection',
+            icon: 'assets/icons/collections-icon.svg',
+            selectedColor: kSelectedColor,
+            unselectedColor: kUnselectedColor,
+            isSelected: _currentPage == 1,
+          ),
+          _navItem(
+            label: 'Wishlist',
+            icon: 'assets/icons/wishlist-icon.svg',
+            selectedColor: kSelectedColor,
+            unselectedColor: kUnselectedColor,
+            isSelected: _currentPage == 2,
+          ),
+          _navItem(
+            label: 'Profile',
+            icon: 'assets/icons/profile-icon.svg',
+            selectedColor: kSelectedColor,
+            unselectedColor: kUnselectedColor,
+            isSelected: _currentPage == 3,
+          ),
+        ],
       ),
     );
   }
 
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: pages[currentPage],
-      // BOTTOM NAVIGATION BAR
-      bottomNavigationBar: NavigationBar(
-        backgroundColor: Colors.white,
-        indicatorColor: Colors.transparent,
-        labelTextStyle: WidgetStateProperty.resolveWith(
-          (states) {
-            if (states.contains(WidgetState.selected)) {
-              return kNavLabelSelected;
-            }
-            return kNavLabelUnselected;
-          },
+  NavigationDestination _navItem({
+    required String label,
+    required String icon,
+    required Color selectedColor,
+    required Color unselectedColor,
+    required bool isSelected,
+  }) {
+    return NavigationDestination(
+      label: label,
+      icon: SvgPicture.asset(
+        icon,
+        width: kNavIconSize,
+        colorFilter: ColorFilter.mode(
+          isSelected ? selectedColor : unselectedColor,
+          BlendMode.srcIn,
         ),
-        height: kBottomNavHeight,
-        destinations: [
-          _navItem(
-            label: 'Home',
-            iconPath: 'assets/icons/home-icon.svg',
-          ),
-          _navItem(
-            label: 'Collection',
-            iconPath: 'assets/icons/collections-icon.svg',
-          ),
-          _navItem(
-            label: 'Wishlist',
-            iconPath: 'assets/icons/wishlist-icon.svg',
-          ),
-          _navItem(
-            label: 'Profile',
-            iconPath: 'assets/icons/profile-icon.svg',
-          ),
-        ],
-        onDestinationSelected: (int value){
-          setState(() {
-            currentPage = value;
-          });
-        },
-        selectedIndex: currentPage,
       ),
     );
   }

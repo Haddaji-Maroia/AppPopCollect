@@ -15,10 +15,6 @@ class WhatsNewSection extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text("What's New 🔥", style: kSectionTitle),
-            Text(
-              'See All',
-              style: kLinkText,
-            ),
           ],
         ),
 

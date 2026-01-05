@@ -9,6 +9,7 @@ import 'package:popcollect2/screens/onboarding/onboarding_page.dart';
 import 'package:popcollect2/screens/profile_page.dart';
 import 'package:popcollect2/screens/register/sign_up_page.dart';
 import 'package:popcollect2/screens/wishlist_page.dart';
+import 'package:popcollect2/services/notification_service.dart';
 import 'package:popcollect2/widgets/home/characters_about_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -17,6 +18,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  await NotificationService.init();
 
   final prefs = await SharedPreferences.getInstance();
   final bool isFinished = prefs.getBool('onboarding_done') ?? false;

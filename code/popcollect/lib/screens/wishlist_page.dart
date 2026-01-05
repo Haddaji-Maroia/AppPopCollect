@@ -8,7 +8,10 @@ class WishlistPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const double kEmptyStateIconSize = 80.0;
+
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text('Wishlist', style: kSectionTitle),
         centerTitle: true,
@@ -21,45 +24,47 @@ class WishlistPage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // ICONA O ILLUSTRAZIONE
               Icon(
                 Icons.favorite_border_rounded,
-                size: 80,
+                size: kEmptyStateIconSize,
                 color: Colors.grey.shade300,
               ),
 
               const SizedBox(height: kSpacingM),
 
-              // TESTO PRINCIPALE
               const Text(
                 'Your Wishlist is empty',
-                style: kTitleText,
+                style: kSectionTitle,
                 textAlign: TextAlign.center,
               ),
 
               const SizedBox(height: kSpacingS),
 
-              // SOTTOTITOLO
-              Text(
+              const Text(
                 'Tap the heart icon on any figure to add it to your wishlist and keep track of what you want to find next!',
-                style: kSecondaryText,
+                style: kBodyText,
                 textAlign: TextAlign.center,
               ),
 
               const SizedBox(height: kSpacingXL),
 
-              // BOTTONE PER TORNARE ALLA HOME (OPZIONALE)
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/collection');
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.black,
-                  foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(kRadiusM)),
+              SizedBox(
+                width: double.infinity,
+                height: kButtonHeight,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/homePage');
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.black,
+                    foregroundColor: Colors.white,
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(kBorderRadiusButton), // USA: 30.0
+                    ),
+                  ),
+                  child: const Text('Explore Collections', style: kButtonText), // USA: kButtonText
                 ),
-                child: const Text('Explore Collections'),
               ),
             ],
           ),

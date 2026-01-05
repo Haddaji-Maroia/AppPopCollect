@@ -5,6 +5,7 @@ import '../../constants/fonts.dart';
 import '../../constants/sizes.dart';
 import '../../widgets/hirono/progress_card.dart';
 import '../../widgets/hirono/series_card.dart';
+import '../../widgets/common/series_filter_chips.dart';
 import 'hirono_series_page.dart';
 import 'hirono_simple_series_page.dart';
 
@@ -17,9 +18,30 @@ class HironoPage extends StatefulWidget {
 
 class _HironoPageState extends State<HironoPage> {
   String selectedFilter = 'All';
-
-  // Inizializziamo il DB per accedere allo stream dei personaggi
   final db = FirestoreODM(appSchema, firestore: FirebaseFirestore.instance);
+
+  List<HironoSeries> _sortSeries(QuerySnapshot snapshot) {
+    final list = snapshot.docs.map((doc) {
+      final data = doc.data() as Map<String, dynamic>;
+      return HironoSeries.fromJson({...data, 'id': doc.id});
+    }).toList();
+
+    list.sort((a, b) {
+      int getNumber(String title) {
+        final match = RegExp(r'\d+').firstMatch(title);
+        return match != null ? int.parse(match.group(0)!) : kInitialOwnedValue;
+      }
+      return getNumber(a.title).compareTo(getNumber(b.title));
+    });
+    return list;
+  }
+
+  bool _shouldShow(int owned, int total) {
+    if (selectedFilter == 'All') return true;
+    if (selectedFilter == 'In progress') return owned > kInitialOwnedValue && owned < total;
+    if (selectedFilter == 'Completed') return owned == total;
+    return true;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,88 +49,53 @@ class _HironoPageState extends State<HironoPage> {
       appBar: AppBar(
         title: const Text('Hirono', style: kSectionTitle),
       ),
-      // 1. STREAM PER LE SERIE (per la lista)
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance.collection('series').snapshots(),
         builder: (context, seriesSnapshot) {
           if (seriesSnapshot.hasError) return Center(child: Text("Errore: ${seriesSnapshot.error}"));
           if (!seriesSnapshot.hasData) return const Center(child: CircularProgressIndicator());
 
-          final allSeries = seriesSnapshot.data!.docs.map((doc) {
-            final data = doc.data() as Map<String, dynamic>;
-            return HironoSeries.fromJson({...data, 'id': doc.id});
-          }).toList();
+          final allSeries = _sortSeries(seriesSnapshot.data!);
 
-          allSeries.sort((a, b) {
-            int getNumber(String title) {
-              final match = RegExp(r'\d+').firstMatch(title);
-              return match != null ? int.parse(match.group(0)!) : 0;
-            }
-            return getNumber(a.title).compareTo(getNumber(b.title));
-          });
-
-          // 2. STREAM PER I PERSONAGGI (per il progresso totale)
           return StreamBuilder<List<HironoCharacter>>(
             stream: db.characters.stream,
             builder: (context, charSnapshot) {
-              // Calcoliamo i dati reali dei personaggi
-              int totalOwned = 0;
-              int totalPossible = 0;
-
+              int totalOwned = kInitialOwnedValue;
               if (charSnapshot.hasData) {
                 totalOwned = charSnapshot.data!.where((c) => c.isOwned).length;
-                totalPossible = charSnapshot.data!.length;
               }
 
               return ListView(
                 padding: const EdgeInsets.all(kPagePadding),
                 children: [
-                  // LA CARD ORA È REALE
                   ProgressCard(
                     title: 'Overall Progress',
                     owned: totalOwned,
-                    total: 108,
+                    total: kHironoTotalItems,
+                  ),
+                  const SizedBox(height: kSectionSpacing),
+
+                  // filtri
+                  CustomFilterChips<String>(
+                    items: const ['All', 'In progress', 'Completed'],
+                    selectedItem: selectedFilter,
+                    labelBuilder: (label) => label,
+                    onSelected: (label) => setState(() => selectedFilter = label),
                   ),
 
                   const SizedBox(height: kSectionSpacing),
-                  _buildFilters(),
-                  const SizedBox(height: kSectionSpacing),
 
-                  ...allSeries.map((serie) {
-                    // Calcolo dinamico "Owned" per ogni riga della lista (opzionale)
-                    int seriesOwned = 0;
-                    if (charSnapshot.hasData) {
-                      // Qui contiamo quanti personaggi di QUESTA serie possediamo
-                      // Nota: Assicurati che i personaggi abbiano un campo per collegarli alla serie se vuoi questo dato preciso
-                      seriesOwned = (serie.id == 'other_one') ? totalOwned : 0;
-                    }
-
-                    if (!_shouldShow(seriesOwned, serie.total)) return const SizedBox.shrink();
-
+                  ...allSeries.where((s) {
+                    int owned = (s.id == 'other_one') ? totalOwned : kInitialOwnedValue;
+                    return _shouldShow(owned, s.total);
+                  }).map((serie) {
                     return SeriesCard(
                       image: serie.image,
                       title: serie.title,
-                      owned: seriesOwned,
+                      owned: (serie.id == 'other_one') ? totalOwned : kInitialOwnedValue,
                       total: serie.total,
                       secret: serie.secret,
-                      onTap: () {
-                        if (serie.id == 'other_one') {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (_) => const HironoSeriesPage()),
-                          );
-                        } else {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => HironoSimpleSeriesPage(
-                                title: serie.title,
-                                image: serie.image,
-                              ),
-                            ),
-                          );
-                        }
-                      },
+                      onTap: () => _handleNavigation(context, serie),
                     );
                   }),
                 ],
@@ -120,27 +107,14 @@ class _HironoPageState extends State<HironoPage> {
     );
   }
 
-  bool _shouldShow(int owned, int total) {
-    if (selectedFilter == 'All') return true;
-    if (selectedFilter == 'In progress') return owned > 0 && owned < total;
-    if (selectedFilter == 'Completed') return owned == total;
-    return true;
-  }
+  void _handleNavigation(BuildContext context, HironoSeries serie) {
+    final Widget destination = (serie.id == 'other_one')
+        ? const HironoSeriesPage()
+        : HironoSimpleSeriesPage(title: serie.title, image: serie.image);
 
-  Widget _buildFilters() {
-    return Wrap(
-      spacing: kFilterSpacing,
-      children: ['All', 'In progress', 'Completed'].map((label) {
-        final isSelected = selectedFilter == label;
-        return OutlinedButton(
-          style: OutlinedButton.styleFrom(
-            backgroundColor: isSelected ? Colors.black : Colors.white,
-            foregroundColor: isSelected ? Colors.white : Colors.black,
-          ),
-          onPressed: () => setState(() => selectedFilter = label),
-          child: Text(label),
-        );
-      }).toList(),
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => destination),
     );
   }
 }

@@ -46,6 +46,7 @@ dependencies:
   firebase_auth: ^5.7.0
   shared_preferences: ^2.5.4
   image_picker: ^1.2.1
+  flutter_local_notifications: ^19.5.0
 
 dev_dependencies:
   flutter_test:
@@ -79,7 +80,6 @@ flutter:
     - assets/images/avatar/
     - assets/images/hirono_series/
     - assets/images/hirono_other_one/
-    - assets/images/icons/logoPop.svg
     - assets/icons/
 
 
