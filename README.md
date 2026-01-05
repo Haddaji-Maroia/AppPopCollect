@@ -116,14 +116,14 @@ Elle souhaite :
 
 ## État d’avancement
 
-| Fonctionnalité | Statut |
-|---------------|--------|
-| Onboarding multi-écrans | ✅ Terminé |
-| Authentification Firebase | ✅ Terminé |
-| CRUD figurines | ✅ Terminé |
-| Séries dynamiques Firestore | ✅ Terminé |
-| Progression visuelle | ✅ Terminé |
-| Synchronisation temps réel | ✅ Terminé |
+| Fonctionnalité | Statut | Aperçu |
+|---------------|:--------:|:--------:|
+| Onboarding multi-écrans | ✅ Terminé | ![Onboarding](assets/onboarding.png) |
+| Authentification Firebase | ✅ Terminé | ![Auth](assets/auth.png) |
+| CRUD figurines | ✅ Terminé | ![CRUD](assets/crud.png) |
+| Séries dynamiques Firestore | ✅ Terminé | ![Series](assets/series.png) |
+| Progression visuelle | ✅ Terminé | ![Progress](assets/progress.png) |
+| Synchronisation temps réel | ✅ Terminé | ![Sync](assets/sync.png) |
 
 ---
 
