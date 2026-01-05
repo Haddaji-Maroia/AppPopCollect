@@ -90,7 +90,7 @@ class ProfilePage extends StatelessWidget {
 
                     const SizedBox(height: kSpacingXL),
 
-                    //RECENT ACTIVITY
+                    //RECENT ACTIVITY SECTION
                     StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
                       stream: FirebaseFirestore.instance
                           .collection('global_activities')
