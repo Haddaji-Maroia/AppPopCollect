@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:popcollect2/widgets/profile/badges_section.dart';
 import '../constants/sizes.dart';
 import '../constants/fonts.dart';
@@ -19,7 +20,7 @@ class ProfilePage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              //  HEADER
+              // HEADER
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -29,8 +30,8 @@ class ProfilePage extends StatelessWidget {
                   ),
                   IconButton(
                     icon: const Icon(Icons.logout),
-                    onPressed: () {
-                      // TODO logout Firebase
+                    onPressed: () async {
+                      _showLogoutDialog(context);
                     },
                   ),
                 ],
@@ -49,14 +50,14 @@ class ProfilePage extends StatelessWidget {
               const SizedBox(height: kSpacingS),
 
               // USERNAME
-              Text(
+              const Text(
                 'sophia27',
                 style: kTitleText,
               ),
 
               const SizedBox(height: kSpacingXS),
 
-              Text(
+              const Text(
                 'Collecting since Oct 2023 📦',
                 style: kCaptionText,
               ),
@@ -64,26 +65,46 @@ class ProfilePage extends StatelessWidget {
               const SizedBox(height: kSpacingXL),
 
               // STATS
-              ProfileStats(
+              const ProfileStats(
                 figures: 29,
                 secret: 3,
                 value: 375,
               ),
 
               const SizedBox(height: kSpacingXL),
-
-              // RECENT ACTIVITY
               const RecentActivitySection(),
-
               const SizedBox(height: kSpacingXL),
-
               const BadgesSection(),
-
             ],
           ),
         ),
       ),
     );
   }
-}
 
+  // to logout
+  void _showLogoutDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Logout"),
+          content: const Text("Are you sure you want to log out?"),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text("Cancel"),
+            ),
+            TextButton(
+              onPressed: () async {
+                await FirebaseAuth.instance.signOut();
+                if (context.mounted) Navigator.pop(context);
+              },
+              child: const Text("Logout", style: TextStyle(color: Colors.red)),
+            ),
+          ],
+        );
+      },
+    );
+  }
+}

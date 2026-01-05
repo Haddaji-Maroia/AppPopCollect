@@ -97,4 +97,12 @@ final hironoCharacters = [
     isOwned: false,
     price: 0,
   ),
+  HironoCharacter(
+    id: 'dreaming',
+    name: 'Dreaming',
+    series: 'The Other One',
+    image: 'assets/images/hirono_other_one/dreaming.png',
+    isOwned: false,
+    price: 0,
+  ),
 ];

@@ -6,11 +6,12 @@ import 'package:popcollect2/services/auth_service.dart';
 import 'package:popcollect2/widgets/auth/auth_header.dart';
 import 'package:popcollect2/widgets/auth/or_divider.dart';
 import 'package:popcollect2/widgets/form/password_input.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../constants/fonts.dart';
 import '../../constants/sizes.dart';
 import '../../widgets/auth/social_login.dart';
 import '../../widgets/form/email_input.dart';
+import '../onboarding/onboarding_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -27,6 +28,22 @@ class _LoginPageState extends State<LoginPage> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
+  @override
+  void initState() {
+    super.initState();
+    _checkFirstTime();
+  }
+
+  Future<void> _checkFirstTime() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool isFirstTime = prefs.getBool('isFirstTime') ?? true;
+
+    if (isFirstTime) {
+      await prefs.setBool('isFirstTime', false);
+      if (!mounted) return;
+      Navigator.pushNamed(context, OnboardingPage.routeName);
+    }
+  }
   @override
   void dispose() {
     emailController.dispose();
@@ -130,6 +147,13 @@ class _LoginPageState extends State<LoginPage> {
                             style: kButtonText,
                           ),
                         ),
+                      ),
+
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pushNamed(context, OnboardingPage.routeName);
+                        },
+                        child: const Text("First time? View Tutorial"),
                       ),
                     ],
                   ),

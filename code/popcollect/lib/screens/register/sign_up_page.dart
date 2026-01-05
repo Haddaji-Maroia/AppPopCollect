@@ -12,6 +12,7 @@ import '../../widgets/form/email_input.dart';
 import '../../widgets/form/password_input.dart';
 import '../home_page.dart';
 import '../../constants/sizes.dart';
+import '../onboarding/onboarding_page.dart';
 
 
 
@@ -121,6 +122,12 @@ class _SignUpPageState extends State<SignUpPage> {
                           child: const Text('Login', style: kButtonText),
                         ),
                         ),
+                        TextButton(
+                        onPressed: () {
+                          Navigator.pushNamed(context, OnboardingPage.routeName);
+                        },
+                        child: const Text("First time? View Tutorial"),
+                      ),
                     ],
                   ),
                 ),

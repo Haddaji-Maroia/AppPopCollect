@@ -67,7 +67,7 @@ class _HironoPageState extends State<HironoPage> {
                   ProgressCard(
                     title: 'Overall Progress',
                     owned: totalOwned,
-                    total: totalPossible == 0 ? 108 : totalPossible, // Fallback se DB vuoto
+                    total: 108,
                   ),
 
                   const SizedBox(height: kSectionSpacing),

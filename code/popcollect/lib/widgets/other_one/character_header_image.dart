@@ -5,12 +5,14 @@ class CharacterHeaderImage extends StatelessWidget {
   final String image;
   final bool editMode;
   final VoidCallback onRemove;
+  final VoidCallback? onCameraTap; // AGGIUNGI QUESTO
 
   const CharacterHeaderImage({
     super.key,
     required this.image,
     required this.editMode,
     required this.onRemove,
+    this.onCameraTap, // AGGIUNGI QUESTO
   });
 
   @override
@@ -37,7 +39,8 @@ class CharacterHeaderImage extends StatelessWidget {
               ),
               child: Center(
                 child: ElevatedButton.icon(
-                  onPressed: onRemove,
+                  // CAMBIATO QUI: Ora chiama la funzione fotocamera
+                  onPressed: onCameraTap,
                   icon: const Icon(Icons.camera_alt),
                   label: const Text('Change Photo'),
                   style: ElevatedButton.styleFrom(
