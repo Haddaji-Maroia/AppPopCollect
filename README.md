@@ -123,7 +123,7 @@ Elle souhaite :
 | CRUD figurines | ✅ Terminé | ![CRUD](assets/crud.png) |
 | Séries dynamiques Firestore | ✅ Terminé | ![Series](assets/series.png) |
 | Progression visuelle | ✅ Terminé | ![Progress](assets/progress.png) |
-| Synchronisation temps réel | ✅ Terminé | ![Sync](assets/sync.png) |
+
 
 ---
 
