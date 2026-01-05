@@ -1,4 +1,4 @@
-# 🎁 PopCollect — Gestionnaire de collections Blind-Box
+<img width="346" height="741" alt="Screenshot 2026-01-05 alle 21 00 41" src="https://github.com/user-attachments/assets/f8ec6b0f-752c-4c9a-ba0b-21e00b6b770a" /># 🎁 PopCollect — Gestionnaire de collections Blind-Box
 
 ## Projet d’examen  
 **Développement d’applications mobiles (DAM)**  
@@ -118,12 +118,11 @@ Elle souhaite :
 
 | Fonctionnalité | Statut | Aperçu |
 |---------------|:--------:|:--------:|
-| Onboarding multi-écrans | ✅ Terminé | ![Onboarding](assets/onboarding.png) |
-| Authentification Firebase | ✅ Terminé | ![Auth](assets/auth.png) |
-| CRUD figurines | ✅ Terminé | ![CRUD](assets/crud.png) |
-| Séries dynamiques Firestore | ✅ Terminé | ![Series](assets/series.png) |
-| Progression visuelle | ✅ Terminé | ![Progress](assets/progress.png) |
-
+| Onboarding multi-écrans | ✅ Terminé | ![Onboarding](screenshots/onboarding.png) |
+| Authentification Firebase | ✅ Terminé | ![Auth](screenshots/auth.png) |
+| CRUD figurines | ✅ Terminé | ![CRUD](screenshots/collection.png) |
+| Séries dynamiques Firestore | ✅ Terminé | ![Series](screenshots/series.png) |
+| Progression visuelle | ✅ Terminé | ![Progress](screenshots/home.png) |
 
 ---
 
