@@ -1,132 +1,84 @@
-# PopCollect — Gestionnaire de collections blind-box (Popmart, Hirono, …)
+# PopCollect — Gestionnaire de collections blind-box
 
-**Projet** : Développement d’applications mobiles — HEPL — 2025–2026
-
-**Développée par** : Haddaji Maroia
-
----
-
-## Structure du dépôt (prévisionnelle)
-
-Le projet est encore en phase de conception. Voici la structure envisagée :
-
-/README.md — documentation du projet
-
-/maquettes/ — captures Figma, moodboard, wireframes et prototypes
-
-/lib/ — code source Flutter (à venir)
-
-/models/ — classes pour représenter les figurines et collections
-
-/screens/ — écrans principaux de l’application
-
-/widgets/ — composants réutilisables
-
-/assets/ — icônes, images et polices utilisées
-
-/pubspec.yaml — dépendances (sera complété au développement)
-
-> Cette structure sera mise à jour pendant la phase de développement Flutter.
-> 
-
-## 2. Présentation de l’application (public non technique)
-
-**PopCollect** est une application mobile destinée aux collectionneuses et collectionneurs de figurines en blind-box Popmart(Hirono, Skullpanada, etc.).
-
-Elle permet de **cataloguer facilement ses pièces**, **suivre la complétion d’une série**, **ajouter des photos personnelles** et **gagner des petits badges** lorsque l’on complète des séries ou atteints des objectifs.
-
-L’idée : proposer une interface simple, jolie et adaptée aux petits écrans, afin que chaque collectionneuse ait toujours sous la main la vue réelle de sa collection, sans devoir gérer des listes Excel ou des notes dispersées.
+[cite_start]**Projet d'examen** : Développement d’applications mobiles — HEPL — 2025–2026 [cite: 1, 3]
+**Développé par** : Haddaji Maroia
 
 ---
 
-## 3. Étude de l’existant (benchmark réaliste)
+## 1. Présentation du dépôt
+[cite_start]Le projet respecte l'architecture demandée avec une séparation stricte des responsabilités[cite: 84, 88]:
 
-Les collectionneuses utilisent généralement des applications issues d’autres domaines — comme la gestion de mangas, de livres ou d’inventaires personnels — qui ne répondent pas totalement à leurs besoins.
-
-| Application | Domaine | Points forts | Points faibles |
-| --- | --- | --- | --- |
-| **MangaYo!** | Suivi de mangas | Suivi clair et communautaire, interface familière | Peu de personnalisation pour les collections physiques, manque de visuels détaillés |
-| **Goodreads** | Suivi de livres | Interface intuitive, communauté active | Pas de visuel produit, expérience peu ludique |
-| **Notion (templates)** | Organisation libre | Très personnalisable, flexible | Non optimisé pour mobile, interface complexe pour usage rapide |
-| **Funko App** | Suivi de figurines Funko | Catalogue officiel, suivi facile de la collection | Interface peu esthétique, manque de fonctionnalités ludiques et sociales, rigidité dans l’ajout d’objets hors catalogue |
-
-> Conclusion : il n’existe pas d’application simple, esthétique et pensée pour les collectionneuses de blind-box.
-PopCollect se positionne donc comme une solution visuelle, intuitive et ludique, centrée sur le plaisir de collectionner et la beauté des figurines.
-> 
-
-*2–3 captures d’écran des apps existantes (MangaYo, goodreads et funko App)*
+- [cite_start]**/maquettes/** : Contient les Moodboards, wireframes et prototypes (Figma)[cite: 17, 51].
+- **/code/popcollect/lib/** :
+    - [cite_start]`constants/` : Centralisation de tous les styles (couleurs, polices, tailles) pour bannir les **Magic Numbers**[cite: 89].
+    - [cite_start]`dto/` : Définition des objets métier typés (AppUser, Character)[cite: 47, 102].
+    - `screens/` : Écrans principaux (Home, Collection, Wishlist, Profile).
+    - [cite_start]`widgets/` : Composants factorisés et paramétrables pour éviter les fichiers à rallonge[cite: 85, 86].
+    - [cite_start]`services/` : Logique de persistance via Firestore et gestion du cache[cite: 74, 91].
 
 ---
 
-## 4. Public cible / Prise en compte des besoins
-
-**Public cible principal** :
-
-- Collectionneuses / collectionneurs de blind-box, 16–35 ans, utilisateurs mobiles, sensibles à l’esthétique kawaii / asiatique.
-- Utilisatrices souhaitant gérer leur collection de manière visuelle et rapide.
-
-**Accessibilité & UX** :
-
-- Police lisible, contraste satisfaisant (tests sur petit écran).
-- Interface adaptée aux écrans petits (maquettes en taille réduite).
-- Onboarding minimal pour expliquer rapidement comment ajouter une figurine.
-- Contrôles accessibles (boutons larges, ronds) — prise en compte de handicaps visuels simples (taille de texte, labels).
+## 2. Présentation de l’application (Concept)
+[cite_start]**PopCollect** répond au besoin spécifique des collectionneurs de figurines "blind-box" (Popmart, Hirono, etc.)[cite: 9]. [cite_start]L'application permet de cataloguer visuellement ses pièces, de suivre l'avancement des séries et de transformer l'inventaire fastidieux en une expérience ludique et esthétique[cite: 18, 76].
 
 ---
 
-## 5. Personas & User stories
+## 3. Étude de l'existant (Benchmark)
+[cite_start]L'étude a montré qu'aucune solution actuelle n'allie simplicité visuelle et gestion spécifique aux blind-boxes[cite: 22, 23].
 
-### Personas (exemples)
-
-- **Lina**, 23 ans, étudiante, collectionne des blind-box Popmart ; veut savoir rapidement quelles pièces il lui manque avant d’acheter.
-- **Alessia**, 29 ans, collectionneuse passionnée, veut documenter ses pièces avec des photos et dates d’achat.
-- **Elisa**, 19 ans, achète des séries au hasard, veut voir sa progression et débloquer des badges.
-
-### User stories (format exigé)
-
-- **En tant que** collectionneuse (Lina), **je veux** ajouter une figurine à ma collection **afin de** suivre ce que je possède.
-- **En tant que** collectionneuse, **je veux** visualiser les figurines d’une même série **afin de** voir celles qui me manquent.
-- **En tant que** utilisatrice, **je veux** ajouter une photo prise avec la caméra **afin de** personnaliser la fiche de ma figurine.
-- **En tant que** utilisatrice connectée, **je veux** synchroniser ma collection dans le cloud **afin de** ne rien perdre en cas de changement d’appareil.
-- **En tant que** collectionneuse, **je veux** obtenir un badge quand j’ai complété une série **afin de** sentir une récompense et rester motivée.
-
----
-
-## 6. Fonctionnalités principales (résumé technique non-jargon)
-
-1. **CRUD figurine** : Ajouter / Voir / Modifier / Supprimer une fiche figurine (titre, série, numéro, statut, photo, note, prix estimé).
-2. **Vue série** : Affichage d’une série avec indicateur % complété et éléments manquants.
-3. **Photo & caméra** : ajout de photos via caméra ou galerie.
-4. **Auth / Sync cloud** : authentification (Firebase Auth) et sauvegarde sur Firestore.
-5. **Badges & gamification** : système simple de récompenses quand une série est complétée.
-6. **Offline support** : cache local + synchro à la reconnection (principe de base).
-7. **Notifications** (optionnel) : rappel sortie nouvelle série / promo.
-
----
-
-## 7. Maquettes & moodboard
-
-- Moodboard : `/maquettes/moodboard.png`.
-- Maquettes écrans : `/maquettes/home.png`, `/maquettes/collection.png`, `/maquettes/fiche.png`, `/maquettes/onboarding.png`.
-
----
-
-## 8. État d’avancement (à mettre à jour régulièrement)
-
-| Fonctionnalité | Statut | Preuve (GIF / screenshot) |
+| Application | Points forts | Points faibles |
 | --- | --- | --- |
-| Auth (Firebase) | À venir | `` |
-| CRUD figurine | À venir | `` |
-| Vue série / % complétion | À venir |  |
-| Photo via caméra | À venir | `` |
-| Badges | À venir |  |
-| Offline / Sync | À venir |  |
+| **MangaYo!** | Suivi communautaire clair | Non adapté aux objets physiques |
+| **Goodreads** | Interface intuitive | Pas de visuel produit |
+| **Funko App** | Catalogue officiel | Interface rigide et peu esthétique |
 
 ---
 
-## 9. Section développeurs — compilation & configuration
+## 4. Public cible & Accessibilité
+- [cite_start]**Public** : Collectionneurs de 16-35 ans sensibles au design[cite: 26].
+- [cite_start]**Accessibilité** : Utilisation de contrastes élevés, de boutons larges et d'une navigation simplifiée[cite: 53].
+- [cite_start]**Design Responsive** : L'interface a été conçue pour les petits écrans afin d'éviter les débordements[cite: 54, 111].
 
-Coming soon....
+---
 
-> origin/main
->
+## 5. Personas & User Stories
+### Personas
+- **Lina** : Étudiante, veut vérifier ses doublons avant un achat.
+- **Alessia** : Passionnée, veut documenter ses pièces avec des photos.
+
+### [cite_start]User Stories (Récits Utilisateurs) [cite: 30, 32]
+- **En tant que** collectionneuse, **je veux** ajouter une figurine à ma collection **afin de** suivre ce que je possède.
+- **En tant qu'** utilisateur, **je veux** visualiser le % de complétion d'une série **afin de** voir mes progrès.
+- [cite_start]**En tant qu'** utilisatrice, **je veux** obtenir un badge **afin de** valoriser ma collection[cite: 76].
+
+---
+
+## [cite_start]6. État d’avancement [cite: 43]
+
+| Fonctionnalité | Statut | Preuve visuelle |
+| :--- | :---: | :--- |
+| **Auth & Sync Cloud** | Terminé | ![Auth GIF](assets/readme/auth.gif) |
+| **CRUD Complet (Persistance)** | Terminé | ![CRUD GIF](assets/readme/crud.gif) |
+| **StreamBuilder / Temps réel** | Terminé | ![Stream GIF](assets/readme/stream.gif) |
+| **Onboarding ludique** | Terminé | ![Onboarding GIF](assets/readme/onboarding.gif) |
+
+---
+
+## [cite_start]7. Section Développeurs (Compilation) [cite: 46]
+### Dépendances et Versions
+- [cite_start]**Flutter** : stable (dernière version)[cite: 79].
+- [cite_start]**Packages** : `cloud_firestore`, `firebase_auth`, `firestore_odm`, `dto`[cite: 47, 102].
+
+### Instructions
+1. Cloner le dépôt.
+2. S'assurer que le package local `dto` est bien lié.
+3. Exécuter `flutter pub get`.
+4. Lancer l'application : `flutter run`.
+
+*Note : Les clés API et la configuration Firebase sont incluses dans `firebase_options.dart`. Les règles Firestore sont valides jusqu'au 30/06/2026.* [cite: 48, 105]
+
+---
+### [cite_start]Qualité du code [cite: 80, 81]
+- **Zéro Magic Numbers** : toutes les valeurs passent par le fichier `sizes.dart`.
+- [cite_start]**Typage strict** : aucun accès direct aux données JSON brut; utilisation systématique de classes métier[cite: 92, 101].
+- [cite_start]**Performance** : Utilisation de `StreamBuilder` pour les flux en temps réel[cite: 90].
