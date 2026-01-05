@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dto/dto.dart';
+import '../data/database_setup.dart';
 import '../data/hirono_characters.dart';
 import '../data/hirono_series_data.dart';
 import '../data/collections_data.dart';
@@ -14,7 +16,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  // Specifichiamo bene il tipo per non lasciare dubbi all'editor
   late final FirestoreODM<AppSchema> db;
   final List<String> logs = [];
 
@@ -22,6 +23,11 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     db = FirestoreODM(appSchema, firestore: FirebaseFirestore.instance);
+
+    FirebaseAuth.instance.signInAnonymously().then((userCredential) {
+      print("Logged as: ${userCredential.user?.uid}");
+      setState(() => logs.insert(0, '👤 Autenticato come: ${userCredential.user?.uid}'));
+    });
   }
 
   Future<void> pushCharacters() async {
@@ -62,6 +68,16 @@ class _HomeState extends State<Home> {
     }
   }
 
+  Future<void> pushFullSetup() async {
+    setState(() => logs.insert(0, '🚀 Avvio configurazione completa...'));
+    try {
+      await DatabaseSetup.setupFullDatabase();
+      setState(() => logs.insert(0, '✅ DATABASE PRONTO!'));
+    } catch (e) {
+      setState(() => logs.insert(0, '❌ ERRORE CRITICO: $e'));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -95,6 +111,14 @@ class _HomeState extends State<Home> {
             label: const Text('Collezioni'),
             backgroundColor: Colors.green,
             icon: const Icon(Icons.folder),
+          ),
+          const SizedBox(height: 10),
+          FloatingActionButton.extended(
+            heroTag: 'full_setup',
+            onPressed: pushFullSetup,
+            label: const Text('SETUP COMPLETO'),
+            backgroundColor: Colors.black, // Colore distinto per l'azione principale
+            icon: const Icon(Icons.rocket_launch),
           ),
         ],
       ),

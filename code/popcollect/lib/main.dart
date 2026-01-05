@@ -9,6 +9,7 @@ import 'package:popcollect2/screens/onboarding/onboarding_page.dart';
 import 'package:popcollect2/screens/profile_page.dart';
 import 'package:popcollect2/screens/register/sign_up_page.dart';
 import 'package:popcollect2/screens/wishlist_page.dart';
+import 'package:popcollect2/widgets/home/characters_about_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
@@ -17,7 +18,6 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  // Recuperiamo le preferenze e controlliamo se l'onboarding è completato
   final prefs = await SharedPreferences.getInstance();
   final bool isFinished = prefs.getBool('onboarding_done') ?? false;
 
@@ -36,7 +36,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      // CORREZIONE: Usa 'isFinished' che è il nome della variabile nella classe
       home: !isFinished
           ? const OnboardingPage()
           : StreamBuilder<User?>(
@@ -62,6 +61,7 @@ class MyApp extends StatelessWidget {
         CollectionPage.routeName: (_) => const CollectionPage(),
         ProfilePage.routeName: (_) => const ProfilePage(),
         WishlistPage.routeName: (_) => const WishlistPage(),
+        CharactersAboutPage.routeName: (context) => const CharactersAboutPage(),
       },
       title: 'AppPopCollect',
       theme: ThemeData(

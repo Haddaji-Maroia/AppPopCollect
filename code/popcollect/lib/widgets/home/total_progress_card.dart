@@ -2,13 +2,21 @@ import 'package:flutter/material.dart';
 import '../../constants/fonts.dart';
 import '../../constants/sizes.dart';
 
-
-
 class TotalProgressCard extends StatelessWidget {
-  const TotalProgressCard({super.key});
+  final int owned;
+  final int total;
+
+  const TotalProgressCard({
+    super.key,
+    required this.owned,
+    required this.total,
+  });
 
   @override
   Widget build(BuildContext context) {
+    final double progressValue = total > 0 ? owned / total : 0;
+    final int percent = (progressValue * 100).round();
+
     return Container(
       padding: const EdgeInsets.all(kHorizontalPadding),
       decoration: BoxDecoration(
@@ -22,20 +30,18 @@ class TotalProgressCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  Text('Total Progress', style: kWhiteSubtitle),
-                  SizedBox(height: 6),
-                  Text('29%', style: kBigNumberWhite),
+                children: [
+                  const Text('Total Progress', style: kWhiteSubtitle),
+                  const SizedBox(height: 6),
+                  Text('$percent%', style: kBigNumberWhite),
                 ],
               ),
 
-              /// icona
               Container(
                 width: kProgressIconSize,
                 height: kProgressIconSize,
@@ -54,11 +60,10 @@ class TotalProgressCard extends StatelessWidget {
 
           const SizedBox(height: kVerticalSpacingM),
 
-          /// Barra di progressione
           ClipRRect(
             borderRadius: BorderRadius.circular(10),
             child: LinearProgressIndicator(
-              value: 0.29,
+              value: progressValue,
               minHeight: kProgressBarHeight,
               backgroundColor: Colors.white.withOpacity(0.3),
               valueColor: const AlwaysStoppedAnimation<Color>(
@@ -69,8 +74,8 @@ class TotalProgressCard extends StatelessWidget {
 
           const SizedBox(height: kVerticalSpacingS),
 
-          const Text(
-            '29 of 101 figures collected',
+          Text(
+            '$owned of $total figures collected',
             style: kWhiteCaption,
           ),
         ],
@@ -78,4 +83,3 @@ class TotalProgressCard extends StatelessWidget {
     );
   }
 }
-

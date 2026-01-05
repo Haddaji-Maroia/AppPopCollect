@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart'; // IMPORT AGGIUNTO
-import 'dart:io';
 import '../../constants/sizes.dart';
 import '../../widgets/other_one/character_header_image.dart';
 import '../../widgets/other_one/character_info.dart';
@@ -23,45 +21,11 @@ class HironoCharacterPage extends StatefulWidget {
 
 class _HironoCharacterPageState extends State<HironoCharacterPage> {
   bool editMode = false;
-  bool isUploading = false; // Per mostrare il caricamento
-  final ImagePicker _picker = ImagePicker();
 
-  // FUNZIONE PER SCATTARE LA FOTO
-  Future<void> _takePicture() async {
-    try {
-      final XFile? photo = await _picker.pickImage(
-        source: ImageSource.camera,
-        maxWidth: 1000,
-        imageQuality: 85,
-      );
-
-      if (photo != null) {
-        setState(() => isUploading = true);
-
-        // Qui dovresti caricare su Firebase Storage.
-        // Per ora simuliamo l'aggiornamento del path su Firestore
-        await FirebaseFirestore.instance
-            .collection('characters')
-            .doc(widget.character.id)
-            .update({
-          'image': photo.path, // In futuro qui metterai l'URL di Firebase Storage
-        });
-
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Photo updated successfully!')),
-          );
-        }
-      }
-    } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error taking photo: $e')),
-        );
-      }
-    } finally {
-      if (mounted) setState(() => isUploading = false);
-    }
+  Future<void> _handleCameraTap() async {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Camera feature currently disabled.')),
+    );
   }
 
   @override
@@ -83,101 +47,86 @@ class _HironoCharacterPageState extends State<HironoCharacterPage> {
             ),
         ],
       ),
-      body: Stack(
+      body: ListView(
+        padding: const EdgeInsets.all(kPagePadding),
         children: [
-          ListView(
-            padding: const EdgeInsets.all(kPagePadding),
-            children: [
-              CharacterHeaderImage(
-                image: widget.character.image,
-                editMode: editMode,
-                // COLLEGA LA FUNZIONE AL WIDGET
-                onCameraTap: _takePicture,
-                onRemove: () async {
-                  await FirebaseFirestore.instance
-                      .collection('characters')
-                      .doc(widget.character.id)
-                      .update({'image': ''});
+          CharacterHeaderImage(
+            image: widget.character.image,
+            editMode: editMode,
+            onCameraTap: _handleCameraTap,
+            onRemove: () async {
+              await FirebaseFirestore.instance
+                  .collection('characters')
+                  .doc(widget.character.id)
+                  .update({'image': ''});
 
-                  if (mounted) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Photo removed')),
-                    );
-                  }
-                },
-              ),
-
-              const SizedBox(height: kSpacingL),
-
-              CharacterInfo(character: widget.character),
-
-              const SizedBox(height: kSpacingL),
-
-              // AGGIUNTA ALLA COLLEZIONE
-              CollectionButton(
-                inCollection: isCharacterOwned,
-                onAdd: () async {
-                  await FirebaseFirestore.instance
-                      .collection('characters')
-                      .doc(widget.character.id)
-                      .update({'isOwned': true});
-
-                  if (mounted) Navigator.pop(context);
-                },
-                onRemove: () {},
-              ),
-
-              const SizedBox(height: kSpacingS),
-
-              // RIMOZIONE DALLA COLLEZIONE
-              if (isCharacterOwned)
-                OutlinedButton.icon(
-                  style: OutlinedButton.styleFrom(
-                    minimumSize: const Size.fromHeight(50),
-                    side: const BorderSide(color: Colors.red),
-                  ),
-                  onPressed: () async {
-                    await FirebaseFirestore.instance
-                        .collection('characters')
-                        .doc(widget.character.id)
-                        .update({
-                      'isOwned': false,
-                      'price': 0.0,
-                    });
-
-                    if (mounted) Navigator.pop(context);
-                  },
-                  icon: const Icon(Icons.delete, color: Colors.red),
-                  label: const Text(
-                    'Remove from Collection',
-                    style: TextStyle(color: Colors.red),
-                  ),
-                ),
-
-              const SizedBox(height: kSpacingL),
-
-              // MINI FORM
-              if (isCharacterOwned)
-                CollectionDetailsForm(
-                  initialPrice: widget.character.price,
-                  onCancel: () => setState(() => editMode = false),
-                  onSave: (newPrice) async {
-                    await FirebaseFirestore.instance
-                        .collection('characters')
-                        .doc(widget.character.id)
-                        .update({'price': newPrice ?? 0.0});
-
-                    if (mounted) Navigator.pop(context);
-                  },
-                ),
-            ],
+              if (mounted) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Photo removed')),
+                );
+              }
+            },
           ),
 
-          // OVERLAY DI CARICAMENTO
-          if (isUploading)
-            Container(
-              color: Colors.black26,
-              child: const Center(child: CircularProgressIndicator()),
+          const SizedBox(height: kSpacingL),
+
+          CharacterInfo(character: widget.character),
+
+          const SizedBox(height: kSpacingL),
+
+          CollectionButton(
+            inCollection: isCharacterOwned,
+            onAdd: () async {
+              await FirebaseFirestore.instance
+                  .collection('characters')
+                  .doc(widget.character.id)
+                  .update({'isOwned': true});
+
+              if (mounted) Navigator.pop(context);
+            },
+            onRemove: () {},
+          ),
+
+          const SizedBox(height: kSpacingS),
+
+          if (isCharacterOwned)
+            OutlinedButton.icon(
+              style: OutlinedButton.styleFrom(
+                minimumSize: const Size.fromHeight(50),
+                side: const BorderSide(color: Colors.red),
+              ),
+              onPressed: () async {
+                await FirebaseFirestore.instance
+                    .collection('characters')
+                    .doc(widget.character.id)
+                    .update({
+                  'isOwned': false,
+                  'price': 0.0,
+                });
+
+                if (mounted) Navigator.pop(context);
+              },
+              icon: const Icon(Icons.delete, color: Colors.red),
+              label: const Text(
+                'Remove from Collection',
+                style: TextStyle(color: Colors.red),
+              ),
+            ),
+
+          const SizedBox(height: kSpacingL),
+
+          if (isCharacterOwned)
+            CollectionDetailsForm(
+              initialPrice: widget.character.price,
+              onCancel: () => setState(() => editMode = false),
+              onSave: (newPrice) async {
+                await FirebaseFirestore.instance
+                    .collection('characters')
+                    .doc(widget.character.id)
+                    .update({'price': newPrice ?? 0.0});
+
+                if (mounted) Navigator.pop(context);
+              },
             ),
         ],
       ),

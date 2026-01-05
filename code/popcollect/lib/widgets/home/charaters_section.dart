@@ -1,64 +1,77 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dto/models/collection.dart';
+import 'package:popcollect2/widgets/home/characters_about_page.dart';
 import 'package:popcollect2/widgets/home/section_header.dart';
-import '../../screens/characters_page.dart';
 import 'characters_card.dart';
 import '../../constants/sizes.dart';
-
 
 class CharactersSection extends StatelessWidget {
   const CharactersSection({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final characters = [
-      {
-        'name': 'Hirono',
-        'image': 'assets/images/characters/hirono.jpg',
-      },
-      {
-        'name': 'Skullpanda',
-        'image': 'assets/images/characters/skullPanda2.jpg',
-      },
-      {
-        'name': 'Dimoo',
-        'image': 'assets/images/characters/dimoo.jpg',
-      },
-    ];
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // TITLE + SEE ALL
-        SectionHeader(
-          title: 'Characters',
-          actionText: 'Voir tous les personnages',
-          onTap: () {
-            Navigator.pushNamed(
-              context,
-              CharactersPage.routeName,
-            );
-          },
+        const SectionHeader(
+          title: 'Collections',
+          actionText: '',
+          onTap: null,
         ),
-
         const SizedBox(height: kSpacingM),
 
-        // CAROUSEL
-        SizedBox(
-          height: kCharactersCarouselHeight,
-          child: PageView.builder(
-            controller: PageController(
-              viewportFraction: kCharactersViewportFraction,
-              initialPage: kCharactersInitialPage, // parte dal centro
-            ),
-            itemCount: characters.length,
-            itemBuilder: (context, index) {
-              final character = characters[index];
-              return CharacterCard(
-                name: character['name']!,
-                image: character['image']!,
-              );
-            },
-          ),
+        StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+          stream: FirebaseFirestore.instance.collection('collections').snapshots(),
+          builder: (context, snapshot) {
+            if (snapshot.hasError) return Text("Error: ${snapshot.error}");
+            if (!snapshot.hasData) return const Center(child: CircularProgressIndicator());
+
+            final collections = snapshot.data!.docs.map((doc) {
+              try {
+                final data = doc.data();
+                data['id'] = doc.id;
+
+                return AppCollection.fromJson(data);
+              } catch (e) {
+                debugPrint("Errore parsing collezione ${doc.id}: $e");
+                return null;
+              }
+            }).whereType<AppCollection>().toList();
+
+            if (collections.isEmpty) return const Text("No collections found");
+
+            final int middleIndex = collections.length ~/ 2;
+
+            return SizedBox(
+              height: kCharactersCarouselHeight > 0 ? kCharactersCarouselHeight : 250,
+              child: PageView.builder(
+                controller: PageController(
+                  viewportFraction: kCharactersViewportFraction,
+                  initialPage: middleIndex,
+                ),
+                itemCount: collections.length,
+                itemBuilder: (context, index) {
+                  final item = collections[index];
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const CharactersAboutPage(),
+                          settings: RouteSettings(arguments: item),
+                        ),
+                      );
+                    },
+                    child: CharacterCard(
+                      name: item.name,
+                      image: item.image,
+                    ),
+                  );
+                },
+              ),
+            );
+          },
         ),
       ],
     );

@@ -36,14 +36,14 @@ class _LoginPageState extends State<LoginPage> {
 
   Future<void> _checkFirstTime() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool isFirstTime = prefs.getBool('isFirstTime') ?? true;
+    bool onboardingDone = prefs.getBool('onboarding_done') ?? false;
 
-    if (isFirstTime) {
-      await prefs.setBool('isFirstTime', false);
+    if (!onboardingDone) {
       if (!mounted) return;
-      Navigator.pushNamed(context, OnboardingPage.routeName);
+      Navigator.pushReplacementNamed(context, OnboardingPage.routeName);
     }
   }
+
   @override
   void dispose() {
     emailController.dispose();
